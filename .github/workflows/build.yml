@@ -21,7 +21,8 @@ jobs:
                 repository: "revenge-mod/ci-builds"
                 path: "builds"
                 token: ${{ secrets.BUILDS_PUSH_TOKEN }}
-                ref: ${{ github.ref_name }}
+                # TODO: fix this
+                ref: main
 
           - name: Set env
             id: env
