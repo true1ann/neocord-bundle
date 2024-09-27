@@ -15,6 +15,14 @@ jobs:
           - name: Checkout
             uses: actions/checkout@v4
 
+          - name: Checkout builds
+            uses: actions/checkout@v4
+            with:
+                repository: "revenge-mod/ci-builds"
+                path: "builds"
+                token: ${{ secrets.BUILDS_PUSH_TOKEN }}
+                ref: ${{ github.ref_name }}
+
           - name: Set env
             id: env
             run: |
@@ -53,10 +61,23 @@ jobs:
               asset_path: ./dist/revenge.js
               asset_name: revenge.js
               asset_content_type: text/javascript
-      
+              
           - name: Publish release
             uses: eregon/publish-release@v1
             env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             with:
               release_id: ${{ steps.create_release.outputs.id }}
+                
+          - name: Push build
+            run: |
+                rm $GITHUB_WORKSPACE/builds/* || true
+                cp -r dist/* $GITHUB_WORKSPACE/builds || true
+                cd $GITHUB_WORKSPACE/builds
+                git config --local user.email "actions@github.com"
+                git config --local user.name "GitHub Actions"
+                git add .
+                git commit -m "Build $GITHUB_SHA" || exit 0
+                git push
+            env:
+              GITHUB_TOKEN: ${{ secrets.BUILDS_PUSH_TOKEN }}
