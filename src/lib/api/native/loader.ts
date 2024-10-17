@@ -59,7 +59,7 @@ function polyfillVendettaLoaderIdentity() {
                 const id = getStoredTheme()?.id;
                 if (!id) return null;
 
-                const { themes } = require("@lib/themes");
+                const { themes } = require("@lib/addons/themes");
                 return themes[id] ?? getStoredTheme() ?? null;
             },
             configurable: true
