@@ -1,3 +1,10 @@
+# [1.2.0-dev.2](https://github.com/revenge-mod/revenge-bundle/compare/v1.2.0-dev.1...v1.2.0-dev.2) (2024-10-19)
+
+
+### Bug Fixes
+
+* wrong imports ([87ba67e](https://github.com/revenge-mod/revenge-bundle/commit/87ba67e8c2a3cec6c9b03312937dfa3f5adde0f8))
+
 # [1.2.0-dev.1](https://github.com/revenge-mod/revenge-bundle/compare/v1.1.2...v1.2.0-dev.1) (2024-10-19)
 
 
