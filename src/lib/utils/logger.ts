@@ -11,5 +11,5 @@ export interface Logger {
     verbose: LoggerFunction;
 }
 
-export const DiscordLogger = findByNameLazy("Logger");
-export const logger: Logger = new DiscordLogger("Revenge");
+export const LoggerClass = findByNameLazy("Logger");
+export const logger: Logger = new LoggerClass("Revenge");
