@@ -28,7 +28,7 @@ export default {
 		[
 			"@semantic-release/exec",
 			{
-				prepareCmd: `pnpm build --release-branch ${process.env.RELEASE_BRANCH}`,
+				prepareCmd: `pnpm build --release-branch ${process.env.RELEASE_BRANCH} --build-minify`,
 			},
 		],
 		[
