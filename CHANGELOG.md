@@ -1,3 +1,10 @@
+# [1.2.0-dev.3](https://github.com/revenge-mod/revenge-bundle/compare/v1.2.0-dev.2...v1.2.0-dev.3) (2024-10-19)
+
+
+### Bug Fixes
+
+* downgrade dependencies to fix build issue ([b803053](https://github.com/revenge-mod/revenge-bundle/commit/b803053e28c77529d62179b75c22c2365869d020))
+
 # [1.2.0-dev.2](https://github.com/revenge-mod/revenge-bundle/compare/v1.2.0-dev.1...v1.2.0-dev.2) (2024-10-19)
 
 
