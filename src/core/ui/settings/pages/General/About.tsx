@@ -1,8 +1,8 @@
 import { Strings } from "@core/i18n";
 import Version from "@core/ui/settings/pages/General/Version";
+import { useProxy } from "@core/vendetta/storage";
 import { getDebugInfo } from "@lib/api/debug";
 import { settings } from "@lib/api/settings";
-import { useProxy } from "@lib/api/storage";
 import { Stack, TableRowGroup } from "@metro/common/components";
 import { Platform, ScrollView } from "react-native";
 
@@ -72,7 +72,7 @@ export default function About() {
         {
             label: Platform.select({ android: Strings.CODENAME, ios: Strings.MACHINE_ID })!,
             version: debugInfo.device.codename,
-            icon: "ic_compose_24px"
+            icon: "ic_copy_id"
         }
     ];
 
