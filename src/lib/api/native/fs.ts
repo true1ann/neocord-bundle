@@ -66,7 +66,7 @@ export async function readFile(path: string, { prefix = "pyoncord/" } = {}): Pro
 export async function downloadFile(url: string, path: string, { prefix = "pyoncord/" } = {}) {
     const response = await fetch(url);
     if (!response.ok) {
-        throw new Error(`Failed to download file from ${url}: ${response.statusText}`);
+        throw new Error(`Failed to download file from ${url}: ${response.status}`);
     }
 
     const arrayBuffer = await response.arrayBuffer();

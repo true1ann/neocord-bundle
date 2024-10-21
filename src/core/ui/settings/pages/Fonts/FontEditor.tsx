@@ -3,6 +3,8 @@ import { createProxy, useProxy } from "@core/vendetta/storage";
 import { FontDefinition, fonts, removeFont, saveFont, validateFont } from "@lib/addons/fonts";
 import { getCurrentTheme } from "@lib/addons/themes";
 import { findAssetId } from "@lib/api/assets";
+import { semanticColors } from "@lib/ui/color";
+import { createStyles, TextStyleSheet } from "@lib/ui/styles";
 import { safeFetch } from "@lib/utils";
 import { NavigationNative } from "@metro/common";
 import { ActionSheet, BottomSheetTitleHeader, Button, IconButton, Stack, TableRow, TableRowGroup, Text, TextInput } from "@metro/common/components";
@@ -10,6 +12,13 @@ import { findByPropsLazy } from "@metro/wrappers";
 import { ErrorBoundary } from "@ui/components";
 import { useMemo, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
+
+const useStyles = createStyles({
+    errorText: {
+        ...TextStyleSheet["text-xs/medium"],
+        color: semanticColors.TEXT_DANGER,
+    },
+})
 
 const actionSheet = findByPropsLazy("hideActionSheet");
 
@@ -245,6 +254,9 @@ export default function FontEditor(props: {
     const [name, setName] = useState<string | undefined>(props.name);
     const [source, setSource] = useState<string>();
     const [importing, setIsImporting] = useState<boolean>(false);
+    const [errors, setErrors] = useState<Array<Error | undefined>>();
+
+    const styles = useStyles();
 
     const memoEntry = useMemo(() => {
         return createProxy(props.name ? { ...fonts[props.name].main } : {}).proxy;
@@ -297,11 +309,13 @@ export default function FontEditor(props: {
                 onChange={setName}
             />
             <TableRowGroup title="Font Entries">
-                {Object.entries(fontEntries).map(([name, url]) => {
+                {Object.entries(fontEntries).map(([name, url], index) => {
+                    const error = errors?.[index];
+
                     return <TableRow
                         label={name}
-                        subLabel={url}
-                        trailing={<Stack spacing={2} direction="horizontal">
+                        subLabel={error ? <Text style={styles.errorText}>{error.message}</Text> : url}
+                        trailing={<Stack spacing={8} direction="horizontal">
                             <IconButton
                                 size="sm"
                                 variant="secondary"
@@ -322,6 +336,7 @@ export default function FontEditor(props: {
                 })}
                 <TableRow label={<NewEntryRow fontEntry={fontEntries} />} />
             </TableRowGroup>
+            {errors && <Text style={styles.errorText}>Some font entries cannot be imported. Please modify the entries and try again.</Text>}
             <View style={{ flexDirection: "row", justifyContent: "flex-end", bottom: 0, left: 0 }}>
                 <Button
                     size="lg"
@@ -342,6 +357,7 @@ export default function FontEditor(props: {
                                 __source: source
                             })
                                 .then(() => navigation.goBack())
+                                .catch(es => setErrors(es))
                                 .finally(() => setIsImporting(false));
                         } else {
                             Object.assign(fonts[props.name], {

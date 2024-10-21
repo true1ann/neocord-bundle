@@ -55,16 +55,14 @@ export async function saveFont(data: string | FontDefinition, selected = false) 
 
     validateFont(fontDefJson);
 
-    try {
-        await Promise.all(Object.entries(fontDefJson.main).map(async ([font, url]) => {
-            let ext = url.split(".").pop();
-            if (ext !== "ttf" && ext !== "otf") ext = "ttf";
-            const path = `downloads/fonts/${fontDefJson.name}/${font}.${ext}`;
-            if (!await fileExists(path)) await downloadFile(url, path);
-        }));
-    } catch (e) {
-        throw new Error("Failed to download font assets", { cause: e });
-    }
+    const errors = await Promise.allSettled(Object.entries(fontDefJson.main).map(async ([font, url]) => {
+        let ext = url.split(".").pop();
+        if (ext !== "ttf" && ext !== "otf") ext = "ttf";
+        const path = `downloads/fonts/${fontDefJson.name}/${font}.${ext}`;
+        if (!await fileExists(path)) await downloadFile(url, path);
+    })).then(it => it.map(it => it.status === 'fulfilled' ? undefined : it.reason));
+
+    if (errors.some(it => it)) throw errors
 
     fonts[fontDefJson.name] = fontDefJson;
 
