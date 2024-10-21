@@ -1,14 +1,15 @@
 import { formatString, Strings } from "@core/i18n";
 import { createProxy, useProxy } from "@core/vendetta/storage";
-import { FontDefinition, fonts, removeFont, saveFont, validateFont } from "@lib/addons/fonts";
+import { FontDefinition, fonts, removeFont, saveFont, updateFont, validateFont } from "@lib/addons/fonts";
 import { getCurrentTheme } from "@lib/addons/themes";
 import { findAssetId } from "@lib/api/assets";
 import { semanticColors } from "@lib/ui/color";
 import { createStyles, TextStyleSheet } from "@lib/ui/styles";
 import { safeFetch } from "@lib/utils";
+import { lazyDestructure } from "@lib/utils/lazy";
 import { NavigationNative } from "@metro/common";
 import { ActionSheet, BottomSheetTitleHeader, Button, IconButton, Stack, TableRow, TableRowGroup, Text, TextInput } from "@metro/common/components";
-import { findByPropsLazy } from "@metro/wrappers";
+import { findByProps, findByPropsLazy } from "@metro/wrappers";
 import { ErrorBoundary } from "@ui/components";
 import { useMemo, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
@@ -18,9 +19,28 @@ const useStyles = createStyles({
         ...TextStyleSheet["text-xs/medium"],
         color: semanticColors.TEXT_DANGER,
     },
-})
+});
 
 const actionSheet = findByPropsLazy("hideActionSheet");
+const { openAlert } = lazyDestructure(() => findByProps("openAlert", "dismissAlert"));
+const { AlertModal, AlertActionButton } = lazyDestructure(() => findByProps("AlertModal", "AlertActions"));
+
+function promptDetachConfirmationForThen(fontName: string | undefined, cb: () => void) {
+    if (fontName && fonts[fontName].source) openAlert("revenge-fonts-detach-source-confirmation", <AlertModal
+        title="Detach font pack URL?"
+        content="You need to detach the font pack URL from this font pack before you can manually edit its font entries. Do you want to detach the font pack URL?"
+        actions={
+            <Stack>
+                <AlertActionButton text="Detach" variant="destructive" onPress={() => {
+                    delete fonts[fontName!].source;
+                    cb();
+                }} />
+                <AlertActionButton text={Strings.CANCEL} variant="secondary" />
+            </Stack>
+        }
+    />);
+    else cb();
+};
 
 function guessFontName(urls: string[]) {
     const fileNames = urls.map(url => {
@@ -130,7 +150,6 @@ function JsonFontImporter({ fonts, setName, setSource }: {
                     .then(() => actionSheet.hideActionSheet())
                     .catch(e => setError(String(e)))
                     .finally(() => setSaving(false));
-
             }}
         />
     </View>;
@@ -139,6 +158,7 @@ function JsonFontImporter({ fonts, setName, setSource }: {
 function EntryEditorActionSheet(props: {
     fontEntries: Record<string, string>;
     name: string;
+    onChange: () => void;
 }) {
     const [familyName, setFamilyName] = useState<string>(props.name);
     const [fontUrl, setFontUrl] = useState<string>(props.fontEntries[props.name]);
@@ -166,6 +186,8 @@ function EntryEditorActionSheet(props: {
             onPress={() => {
                 delete props.fontEntries[props.name];
                 props.fontEntries[familyName] = fontUrl;
+                props.onChange();
+                actionSheet.hideActionSheet();
             }}
         />
     </View>;
@@ -191,7 +213,7 @@ function promptActionSheet(
     );
 }
 
-function NewEntryRow({ fontEntry }: { fontEntry: Record<string, string>; }) {
+function NewEntryRow({ fontName, fontEntry }: { fontName: string | undefined, fontEntry: Record<string, string>; }) {
     const nameRef = useRef<string>();
     const urlRef = useRef<string>();
 
@@ -224,7 +246,7 @@ function NewEntryRow({ fontEntry }: { fontEntry: Record<string, string>; }) {
         <IconButton
             size="md"
             variant="primary"
-            onPress={() => {
+            onPress={() => promptDetachConfirmationForThen(fontName, () => {
                 if (!nameSet && nameRef.current) {
                     setNameSet(true);
                 } else if (nameSet && nameRef.current && urlRef.current) {
@@ -242,7 +264,7 @@ function NewEntryRow({ fontEntry }: { fontEntry: Record<string, string>; }) {
                         setError(String(e));
                     }
                 }
-            }}
+            })}
             icon={findAssetId(nameSet ? "PlusSmallIcon" : "ArrowLargeRightIcon")}
         />
     </View>;
@@ -252,9 +274,9 @@ export default function FontEditor(props: {
     name?: string;
 }) {
     const [name, setName] = useState<string | undefined>(props.name);
-    const [source, setSource] = useState<string>();
+    const [source, setSource] = useState<string | undefined>(props.name && fonts[props.name].source);
     const [importing, setIsImporting] = useState<boolean>(false);
-    const [errors, setErrors] = useState<Array<Error | undefined>>();
+    const [errors, setErrors] = useState<Array<Error | undefined> | undefined>();
 
     const styles = useStyles();
 
@@ -265,6 +287,8 @@ export default function FontEditor(props: {
     const fontEntries: Record<string, string> = useProxy(memoEntry);
 
     const navigation = NavigationNative.useNavigation();
+
+    const [, forceUpdate] = React.useReducer(() => ({}), 0);
 
     return <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 38 }}>
         <Stack style={{ paddingVertical: 24, paddingHorizontal: 12 }} spacing={12}>
@@ -289,15 +313,14 @@ export default function FontEditor(props: {
                         label={"Refetch fonts from source"}
                         icon={<TableRow.Icon source={findAssetId("RetryIcon")} />}
                         onPress={async () => {
-                            const ftCopy = { ...fonts[props.name!] };
-                            await removeFont(props.name!);
-                            await saveFont(ftCopy);
+                            await updateFont(fonts[props.name!]);
                             navigation.goBack();
                         }}
                     />
                     <TableRow
+                        variant="danger"
                         label={"Delete font pack"}
-                        icon={<TableRow.Icon source={findAssetId("TrashIcon")} />}
+                        icon={<TableRow.Icon variant="danger" source={findAssetId("TrashIcon")} />}
                         onPress={() => removeFont(props.name!).then(() => navigation.goBack())}
                     />
                 </TableRowGroup>}
@@ -308,6 +331,12 @@ export default function FontEditor(props: {
                 placeholder={"Whitney"}
                 onChange={setName}
             />
+            {props.name && fonts[props.name].source && <TextInput
+                size="lg"
+                value={source}
+                label="Font Pack URL"
+                onChange={setSource}
+            />}
             <TableRowGroup title="Font Entries">
                 {Object.entries(fontEntries).map(([name, url], index) => {
                     const error = errors?.[index];
@@ -320,21 +349,30 @@ export default function FontEditor(props: {
                                 size="sm"
                                 variant="secondary"
                                 icon={findAssetId("PencilIcon")}
-                                onPress={() => promptActionSheet(EntryEditorActionSheet, fontEntries, {
-                                    name,
-                                    fontEntries,
-                                })}
+                                onPress={() => promptDetachConfirmationForThen(props.name, () =>
+                                    promptActionSheet(EntryEditorActionSheet, fontEntries, {
+                                        name,
+                                        fontEntries,
+                                        onChange: () => {
+                                            setErrors(undefined);
+                                            forceUpdate();
+                                        }
+                                    })
+                                )}
                             />
                             <IconButton
                                 size="sm"
                                 variant="secondary"
                                 icon={findAssetId("TrashIcon")}
-                                onPress={() => delete fontEntries[name]}
+                                onPress={() => promptDetachConfirmationForThen(props.name, () => {
+                                    delete fontEntries[name];
+                                    setErrors(undefined);
+                                })}
                             />
                         </Stack>}
                     />;
                 })}
-                <TableRow label={<NewEntryRow fontEntry={fontEntries} />} />
+                <TableRow label={<NewEntryRow fontName={props.name} fontEntry={fontEntries} />} />
             </TableRowGroup>
             {errors && <Text style={styles.errorText}>Some font entries cannot be imported. Please modify the entries and try again.</Text>}
             <View style={{ flexDirection: "row", justifyContent: "flex-end", bottom: 0, left: 0 }}>
@@ -347,6 +385,7 @@ export default function FontEditor(props: {
                     onPress={async () => {
                         if (!name) return;
 
+                        setErrors(undefined);
                         setIsImporting(true);
 
                         if (!props.name) {
@@ -354,19 +393,21 @@ export default function FontEditor(props: {
                                 spec: 1,
                                 name: name,
                                 main: fontEntries,
-                                __source: source
+                                source
                             })
                                 .then(() => navigation.goBack())
-                                .catch(es => setErrors(es))
+                                .catch(e => setErrors(e))
                                 .finally(() => setIsImporting(false));
                         } else {
                             Object.assign(fonts[props.name], {
                                 name: name,
                                 main: fontEntries,
-                                __edited: true
                             });
-                            setIsImporting(false);
-                            navigation.goBack();
+
+                            updateFont(fonts[props.name])
+                                .then(() => navigation.goBack())
+                                .catch(e => setErrors(e))
+                                .finally(() => setIsImporting(false));
                         }
                     }}
                     icon={findAssetId(props.name ? "toast_image_saved" : "DownloadIcon")}
