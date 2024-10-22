@@ -1,3 +1,10 @@
+# [1.3.0-dev.2](https://github.com/revenge-mod/revenge-bundle/compare/v1.3.0-dev.1...v1.3.0-dev.2) (2024-10-22)
+
+
+### Bug Fixes
+
+* wrap `addonpage` in `safeareaview` ([724fc1e](https://github.com/revenge-mod/revenge-bundle/commit/724fc1e135850d9439abcba03df1cd288ca3593b))
+
 # [1.3.0-dev.1](https://github.com/revenge-mod/revenge-bundle/compare/v1.2.0...v1.3.0-dev.1) (2024-10-21)
 
 
