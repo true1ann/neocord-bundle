@@ -1,3 +1,16 @@
+# [1.3.0](https://github.com/revenge-mod/revenge-bundle/compare/v1.2.0...v1.3.0) (2024-10-23)
+
+
+### Bug Fixes
+
+* wrap `addonpage` in `safeareaview` ([724fc1e](https://github.com/revenge-mod/revenge-bundle/commit/724fc1e135850d9439abcba03df1cd288ca3593b))
+
+
+### Features
+
+* improve fonts management ux ([b30e33d](https://github.com/revenge-mod/revenge-bundle/commit/b30e33d2c6be9d5fefc26903fecbf8fcccc0df42))
+* show error when failing to import font entries ([9511f17](https://github.com/revenge-mod/revenge-bundle/commit/9511f174498dfa5758ad60a2e918220a685849e0))
+
 # [1.3.0-dev.2](https://github.com/revenge-mod/revenge-bundle/compare/v1.3.0-dev.1...v1.3.0-dev.2) (2024-10-22)
 
 
