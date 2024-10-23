@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/revenge-mod/revenge-bundle/compare/v1.3.0...v1.3.1) (2024-10-23)
+
+
+### Bug Fixes
+
+* wrap only `FloatingActionButton` in `SafeAreaView` for `AddonPage` ([42a8268](https://github.com/revenge-mod/revenge-bundle/commit/42a8268630800d268b31f3750c3fa69d965acabc))
+
 # [1.3.0](https://github.com/revenge-mod/revenge-bundle/compare/v1.2.0...v1.3.0) (2024-10-23)
 
 
