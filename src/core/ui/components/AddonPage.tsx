@@ -181,28 +181,30 @@ export default function AddonPage<T extends object>({ CardComponent, ...props }:
 
     return (
         <ErrorBoundary>
-            <SafeAreaView>
-                <FlashList
-                    data={results}
-                    extraData={search}
-                    estimatedItemSize={136}
-                    ListHeaderComponent={headerElement}
-                    ListEmptyComponent={() => <View style={{ gap: 12, padding: 12, alignItems: "center" }}>
-                        <Image source={findAssetId("devices_not_found")} />
-                        <Text variant="text-lg/semibold" color="text-normal">
-                            Hmmm... could not find that!
-                        </Text>
-                    </View>}
-                    contentContainerStyle={{ padding: 8, paddingHorizontal: 12 }}
-                    ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
-                    ListFooterComponent={props.ListFooterComponent}
-                    renderItem={({ item }: any) => <CardComponent item={item.obj} result={item} />}
-                />
-                {props.installAction && <FloatingActionButton
-                    icon={findAssetId("PlusLargeIcon")}
-                    onPress={onInstallPress}
-                />}
-            </SafeAreaView>
+            <FlashList
+                data={results}
+                extraData={search}
+                estimatedItemSize={136}
+                ListHeaderComponent={headerElement}
+                ListEmptyComponent={() => <View style={{ gap: 12, padding: 12, alignItems: "center" }}>
+                    <Image source={findAssetId("devices_not_found")} />
+                    <Text variant="text-lg/semibold" color="text-normal">
+                        Hmmm... could not find that!
+                    </Text>
+                </View>}
+                contentContainerStyle={{ padding: 8, paddingHorizontal: 12 }}
+                ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+                ListFooterComponent={props.ListFooterComponent}
+                renderItem={({ item }: any) => <CardComponent item={item.obj} result={item} />}
+            />
+            {props.installAction && (
+                <SafeAreaView>
+                    <FloatingActionButton
+                        icon={findAssetId("PlusLargeIcon")}
+                        onPress={onInstallPress}
+                    />
+                </SafeAreaView>
+            )}
         </ErrorBoundary>
     );
 }
