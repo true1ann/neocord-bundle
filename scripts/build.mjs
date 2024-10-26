@@ -20,7 +20,8 @@ const metroDeps = await (async () => {
 const args = yargs(process.argv.slice(2));
 const {
     "release-branch": releaseBranch,
-    "build-minify": buildMinify
+    "build-minify": buildMinify,
+    "dev": dev
 } = args;
 
 let context = null;
@@ -44,7 +45,7 @@ const config = {
         ".png": "dataurl"
     },
     define: {
-        __DEV__: JSON.stringify(releaseBranch !== "main")
+        __DEV__: dev ?? JSON.stringify(releaseBranch !== "main")
     },
     inject: ["./shims/asyncIteratorSymbol.js", "./shims/promiseAllSettled.js"],
     legalComments: "none",
