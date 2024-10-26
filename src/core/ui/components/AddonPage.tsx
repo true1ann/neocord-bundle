@@ -4,10 +4,10 @@ import { findAssetId } from "@lib/api/assets";
 import { settings } from "@lib/api/settings";
 import AlertModal, { AlertActionButton } from "@lib/ui/components/wrappers/AlertModal";
 import isValidHttpUrl from "@lib/utils/isValidHttpUrl";
-import { lazyDestructure } from "@lib/utils/lazy";
+import { lazyDestructure, proxyLazy } from "@lib/utils/lazy";
 import { findByProps } from "@metro";
 import { clipboard } from "@metro/common";
-import { Button, FlashList, FloatingActionButton, HelpMessage, IconButton, SafeAreaView, Stack, Text, TextInput } from "@metro/common/components";
+import { Button, FlashList, FloatingActionButton, HelpMessage, IconButton, Stack, Text, TextInput } from "@metro/common/components";
 import { ErrorBoundary, Search } from "@ui/components";
 import fuzzysort from "fuzzysort";
 import { ComponentType, ReactNode, useCallback, useMemo } from "react";
@@ -38,6 +38,8 @@ interface AddonPageProps<T extends object, I = any> {
     ListHeaderComponent?: ComponentType<any>;
     ListFooterComponent?: ComponentType<any>;
 }
+
+const useSafeAreaInsets = proxyLazy(() => findByProps("useSafeAreaInsets").useSafeAreaInsets);
 
 function InputAlert(props: { label: string, fetchFn: (url: string) => Promise<void>; }) {
     const [value, setValue] = React.useState("");
@@ -111,6 +113,7 @@ export default function AddonPage<T extends object>({ CardComponent, ...props }:
 
     const [search, setSearch] = React.useState("");
     const [sortFn, setSortFn] = React.useState<((a: unknown, b: unknown) => number) | null>(() => null);
+    const insets = useSafeAreaInsets();
 
     const results = useMemo(() => {
         let values = props.items;
@@ -198,12 +201,13 @@ export default function AddonPage<T extends object>({ CardComponent, ...props }:
                 renderItem={({ item }: any) => <CardComponent item={item.obj} result={item} />}
             />
             {props.installAction && (
-                <SafeAreaView>
+                <View style={{ paddingBottom: insets.bottom }}>
                     <FloatingActionButton
+                        positionBottom={insets.bottom + 16}
                         icon={findAssetId("PlusLargeIcon")}
                         onPress={onInstallPress}
                     />
-                </SafeAreaView>
+                </View>
             )}
         </ErrorBoundary>
     );
