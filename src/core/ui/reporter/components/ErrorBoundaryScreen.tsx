@@ -17,11 +17,9 @@ const useStyles = createStyles({
         backgroundColor: tokens.colors.BG_BASE_SECONDARY,
         paddingHorizontal: 16,
         height: "100%",
-        padding: 8,
         gap: 12
     }
 });
-
 
 export default function ErrorBoundaryScreen(props: {
     error: Error;
