@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/revenge-mod/revenge-bundle/compare/v1.4.0...v1.5.0) (2024-10-26)
+
+
+### Features
+
+* wrap `App` in `SafeAreaProvider` ([ea1aec9](https://github.com/revenge-mod/revenge-bundle/commit/ea1aec9638f0a17e67ff38bf7d79655d19835f70))
+
 # [1.4.0](https://github.com/revenge-mod/revenge-bundle/compare/v1.3.1...v1.4.0) (2024-10-26)
 
 
