@@ -3,8 +3,6 @@ import { createProxy, useProxy } from "@core/vendetta/storage";
 import { FontDefinition, fonts, removeFont, saveFont, updateFont, validateFont } from "@lib/addons/fonts";
 import { getCurrentTheme } from "@lib/addons/themes";
 import { findAssetId } from "@lib/api/assets";
-import { semanticColors } from "@lib/ui/color";
-import { createStyles, TextStyleSheet } from "@lib/ui/styles";
 import { safeFetch } from "@lib/utils";
 import { lazyDestructure } from "@lib/utils/lazy";
 import { NavigationNative } from "@metro/common";
@@ -13,13 +11,6 @@ import { findByProps, findByPropsLazy } from "@metro/wrappers";
 import { ErrorBoundary } from "@ui/components";
 import { useMemo, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
-
-const useStyles = createStyles({
-    errorText: {
-        ...TextStyleSheet["text-xs/medium"],
-        color: semanticColors.TEXT_DANGER,
-    },
-});
 
 const actionSheet = findByPropsLazy("hideActionSheet");
 const { openAlert } = lazyDestructure(() => findByProps("openAlert", "dismissAlert"));
@@ -278,8 +269,6 @@ export default function FontEditor(props: {
     const [importing, setIsImporting] = useState<boolean>(false);
     const [errors, setErrors] = useState<Array<Error | undefined> | undefined>();
 
-    const styles = useStyles();
-
     const memoEntry = useMemo(() => {
         return createProxy(props.name ? { ...fonts[props.name].main } : {}).proxy;
     }, [props.name]);
@@ -343,7 +332,7 @@ export default function FontEditor(props: {
 
                     return <TableRow
                         label={name}
-                        subLabel={error ? <Text style={styles.errorText}>{error.message}</Text> : url}
+                        subLabel={error ? <Text variant='text-xs/medium' color='text-danger'>{error.message}</Text> : url}
                         trailing={<Stack spacing={8} direction="horizontal">
                             <IconButton
                                 size="sm"
@@ -374,7 +363,7 @@ export default function FontEditor(props: {
                 })}
                 <TableRow label={<NewEntryRow fontName={props.name} fontEntry={fontEntries} />} />
             </TableRowGroup>
-            {errors && <Text style={styles.errorText}>Some font entries cannot be imported. Please modify the entries and try again.</Text>}
+            {errors && <Text variant='text-sm/medium' color='text-danger'>Some font entries cannot be imported. Please modify the entries and try again.</Text>}
             <View style={{ flexDirection: "row", justifyContent: "flex-end", bottom: 0, left: 0 }}>
                 <Button
                     size="lg"

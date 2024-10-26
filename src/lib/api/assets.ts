@@ -45,6 +45,7 @@ export const assetsMap: Record<string, Asset> = new Proxy<any>({}, {
 export interface Asset {
     /** @deprecated */
     id: number;
+    type: 'jsona' | 'jpg' | 'png' | 'svg' | 'lottie' | 'ttf' | 'webm'
     index: number;
     name: string;
     moduleId: number;
