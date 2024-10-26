@@ -1,3 +1,16 @@
+# [1.4.0-dev.1](https://github.com/revenge-mod/revenge-bundle/compare/v1.3.1...v1.4.0-dev.1) (2024-10-26)
+
+
+### Bug Fixes
+
+* actually fix improper FAB insets ([e987723](https://github.com/revenge-mod/revenge-bundle/commit/e9877234befc837126f4a24b23c837e7ed8f6b5b))
+
+
+### Features
+
+* port ErrorBoundary from dev ([f447910](https://github.com/revenge-mod/revenge-bundle/commit/f44791049a762fbce777b03e9d930fba0c0c6570))
+* **settings/pages/Developer:** show assets types, mark non-previewable assets in AssetBrowser ([b7aacf7](https://github.com/revenge-mod/revenge-bundle/commit/b7aacf734e665a7af613aa5eaae8507ea31be5cd))
+
 ## [1.3.1](https://github.com/revenge-mod/revenge-bundle/compare/v1.3.0...v1.3.1) (2024-10-23)
 
 
