@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/revenge-mod/revenge-bundle/compare/v1.5.0...v1.5.1) (2024-11-04)
+
+
+### Bug Fixes
+
+* **lib/api/native/modules:** add more native module fallbacks ([825a404](https://github.com/revenge-mod/revenge-bundle/commit/825a404cae335572aeaa713697383b7d14eca25f))
+
 # [1.5.0](https://github.com/revenge-mod/revenge-bundle/compare/v1.4.0...v1.5.0) (2024-10-26)
 
 
