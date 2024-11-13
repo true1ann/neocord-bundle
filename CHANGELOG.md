@@ -1,3 +1,10 @@
+## [1.5.2](https://github.com/revenge-mod/revenge-bundle/compare/v1.5.1...v1.5.2) (2024-11-13)
+
+
+### Bug Fixes
+
+* **lib/api/native/modules:** add new MMKVManager fallback ([a68f137](https://github.com/revenge-mod/revenge-bundle/commit/a68f1375437e164196745ad01d1997aa9ff1e67b))
+
 ## [1.5.1](https://github.com/revenge-mod/revenge-bundle/compare/v1.5.0...v1.5.1) (2024-11-04)
 
 
