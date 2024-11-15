@@ -29,7 +29,7 @@ let context = null;
 const config = {
     entryPoints: ["src/entry.ts"],
     bundle: true,
-    outfile: "dist/revenge.js",
+    outfile: "dist/neocord.js",
     format: "iife",
     splitting: false,
     external: [],
