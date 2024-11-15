@@ -25,7 +25,7 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: npm install --no-frozen-lockfile
 
       - name: Build the project
         run: node ./scripts/build.swc.mjs
