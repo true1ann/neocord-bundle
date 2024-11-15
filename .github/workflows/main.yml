@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-      - release-branch # Add any other branches you want to trigger the workflow
+      - release-branch
   pull_request:
     branches:
       - main
@@ -22,113 +22,24 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16' # Specify the Node.js version you need
+          node-version: '16'
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build the project
-        run: |
-          node -e "
-          const { execSync } = require('child_process');
-          const crypto = require('crypto');
-          const { build } = require('esbuild');
-          const globalPlugin = require('esbuild-plugin-globals');
-          const fs = require('fs');
-          const path = require('path');
-          const { fileURLToPath } = require('url');
-          const yargs = require('yargs-parser');
-          const { printBuildSuccess } = require('./util.mjs');
-
-          (async () => {
-              const metroDeps = await (async () => {
-                  const ast = await build({
-                      entryPoints: ['./shims/depsModule.ts'],
-                      write: false,
-                      bundle: true,
-                      format: 'esm',
-                  });
-                  return ast.outputFiles[0].text.match(/(?<=require$\"!bunny-deps-shim!\"$\\[\\\")[^\\\"]+/g);
-              })();
-
-              const args = yargs(process.argv.slice(2));
-              const { 'release-branch': releaseBranch, 'build-minify': buildMinify, 'dev': dev } = args;
-
-              let context = null;
-
-              const config = {
-                  entryPoints: ['src/entry.ts'],
-                  bundle: true,
-                  outfile: 'dist/revenge.js',
-                  format: 'iife',
-                  splitting: false,
-                  external: [],
-                  loader: {
-                      '.png': 'dataurl'
-                  },
-                  define: {
-                      __DEV__: dev ?? JSON.stringify(releaseBranch !== 'main')
-                  },
-                  inject: ['./shims/asyncIteratorSymbol.js', './shims/promiseAllSettled.js'],
-                  legalComments: 'none',
-                  alias: {
-                      '!bunny-deps-shim!': './shims/depsModule.ts',
-                      'spitroast': './node_modules/spitroast',
-                      'react/jsx-runtime': './shims/jsxRuntime'
-                  },
-                  plugins: [
-                      globalPlugin({
-                          ...metroDeps.reduce((obj, key) => {
-                              obj[key] = `require("!bunny-deps-shim!")[${JSON.stringify(key)}]`;
-                              return obj;
-                          }, {})
-                      }),
-                      {
-                          name: 'typescript',
-                          setup(build) {
-                              build.onLoad({ filter: /\.tsx?$/ }, async args => {
-                                  const result = await esbuild.transform(await fs.promises.readFile(args.path, 'utf8'), {
-                                      loader: 'tsx',
-                                      target: 'esnext',
-                                      jsx: 'automatic',
-                                  });
-                                  return { contents: result.code };
-                              });
-                          }
-                      }
-                  ]
-              };
-
-              context = {
-                  hash: releaseBranch ? execSync('git rev-parse --short HEAD').toString().trim() : crypto.randomBytes(8).toString('hex').slice(0, 7)
-              };
-
-              const initialStartTime = performance.now();
-              await build(config);
-
-              const timeTook = performance.now() - initialStartTime;
-              printBuildSuccess(context.hash, releaseBranch, timeTook);
-
-              if (buildMinify) {
-                  await build({
-                      ...config,
-                      minify: true,
-                      outfile: config.outfile.replace(/\\.js$/, '.min.js')
-                  });
-              }
-          })();
-          "
+        run: node ./scripts/build.swc.mjs
         env:
           NODE_ENV: production
-          RELEASE_BRANCH: ${{ github.ref_name }} # Pass the branch name as an environment variable
-          BUILD_MINIFY: true # Set to true if you want to enable minification
-          DEV: false # Set to true if you want to enable development mode
+          RELEASE_BRANCH: ${{ github.ref_name }}
+          BUILD_MINIFY: true
+          DEV: false
 
       - name: Upload build artifacts
-        if: success() # Only run if the previous step was successful
-        uses: actions/upload-artifact@v2
+        if: success()
+        uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
           path: |
             dist/neocord.js
-            dist/neocordmin.js # This will only exist if minification is enabled
+            dist/neocord.min.js
