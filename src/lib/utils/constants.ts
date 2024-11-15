@@ -1,5 +1,5 @@
-export const DISCORD_SERVER = "https://discord.com/invite/ddcQf3s2Uq";
-export const GITHUB = "https://github.com/revenge-mod";
+export const DISCORD_SERVER = "https://discord.com/invite/n8WvR8Be9w";
+export const GITHUB = "https://github.com/true1ann/neocord-xposed/";
 export const HTTP_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/;
 export const HTTP_REGEX_MULTI = /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&//=]*)/g;
 

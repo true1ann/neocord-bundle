@@ -1,9 +1,7 @@
 // @ts-nocheck
-/* eslint-disable no-restricted-syntax */
-import swc from "@swc/core";
 import { execSync } from "child_process";
 import crypto from "crypto";
-import { build } from "esbuild";
+import * as esbuild from "esbuild";
 import globalPlugin from "esbuild-plugin-globals";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -13,8 +11,13 @@ import { printBuildSuccess } from "./util.mjs";
 
 /** @type string[] */
 const metroDeps = await (async () => {
-    const ast = await swc.parseFile(path.resolve("./shims/depsModule.ts"));
-    return ast.body.at(-1).expression.right.properties.map(p => p.key.value);
+    const ast = await esbuild.build({
+        entryPoints: ["./shims/depsModule.ts"],
+        write: false,
+        bundle: true,
+        format: "esm",
+    });
+    return ast.outputFiles[0].text.match(/(?<=require$"!bunny-deps-shim!"$\[")[^"]+/g);
 })();
 
 const args = yargs(process.argv.slice(2));
@@ -33,14 +36,6 @@ const config = {
     format: "iife",
     splitting: false,
     external: [],
-    supported: {
-        // Hermes does not actually support const and let, even though it syntactically
-        // accepts it, but it's treated just like 'var' and causes issues
-        "const-and-let": false
-    },
-    footer: {
-        js: "//# sourceURL=revenge"
-    },
     loader: {
         ".png": "dataurl"
     },
@@ -62,48 +57,14 @@ const config = {
             }, {})
         }),
         {
-            name: "swc",
+            name: "typescript",
             setup(build) {
-                build.onLoad({ filter: /\.[cm]?[jt]sx?$/ }, async args => {
-                    const result = await swc.transformFile(args.path, {
-                        jsc: {
-                            externalHelpers: true,
-                            transform: {
-                                constModules: {
-                                    globals: {
-                                        "bunny-build-info": {
-                                            version: `"${context.hash}-${releaseBranch ?? "local"}"`
-                                        }
-                                    }
-                                },
-                                react: {
-                                    runtime: "automatic"
-                                }
-                            },
-                        },
-                        // https://github.com/facebook/hermes/blob/3815fec63d1a6667ca3195160d6e12fee6a0d8d5/doc/Features.md
-                        // https://github.com/facebook/hermes/issues/696#issuecomment-1396235791
-                        env: {
-                            targets: "fully supports es6",
-                            include: [
-                                "transform-block-scoping",
-                                "transform-classes",
-                                "transform-async-to-generator",
-                                "transform-async-generator-functions"
-                            ],
-                            exclude: [
-                                "transform-parameters",
-                                "transform-template-literals",
-                                "transform-exponentiation-operator",
-                                "transform-named-capturing-groups-regex",
-                                "transform-nullish-coalescing-operator",
-                                "transform-object-rest-spread",
-                                "transform-optional-chaining",
-                                "transform-logical-assignment-operators"
-                            ]
-                        },
+                build.onLoad({ filter: /\.tsx?$/ }, async args => {
+                    const result = await esbuild.transform(await fs.promises.readFile(args.path, 'utf8'), {
+                        loader: 'tsx',
+                        target: 'esnext',
+                        jsx: 'automatic',
                     });
-
                     return { contents: result.code };
                 });
             }
@@ -153,3 +114,4 @@ if (isThisFileBeingRunViaCLI) {
         );
     }
 }
+

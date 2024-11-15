@@ -17,9 +17,9 @@ async function initializeBunny() {
 
         console.log(stack ?? e?.toString?.() ?? e);
         alert([
-            "Failed to load Revenge!\n",
+            "Failed to load NeoCord!\n",
             `Build Number: ${ClientInfoManager.Build}`,
-            `Revenge: ${version}`,
+            `NeoCord: ${version}`,
             stack || e?.toString?.(),
         ].join("\n"));
     }
