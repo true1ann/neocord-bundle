@@ -63,9 +63,4 @@ export default function initSettings() {
         name: "Vendetta",
         items: []
     });
-
-    registerSection({
-    	name: "NeoCord",
-    	items: []
-    })
 }
