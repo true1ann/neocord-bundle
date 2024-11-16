@@ -9,9 +9,5 @@ function UnimplementedPage() {
 }
 
 export default function Unimplemented() {
-	return (
-		<QueryClientProvider client={queryClient}>
-			return <UnimplementedPage />;
-		</QueryClientProvider>
-	);
+	return <UnimplementedPage />;
 }
