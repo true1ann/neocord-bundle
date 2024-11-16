@@ -1,5 +1,5 @@
-# Note: AI generated
-name: Build and Minify
+# Note: AI Generated
+name: Build nc
 
 on:
   push:
@@ -35,11 +35,29 @@ jobs:
           BUILD_MINIFY: true
           DEV: false
 
-      - name: Upload build artifacts
-        if: success()
-        uses: actions/upload-artifact@v3
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         with:
-          name: build-artifacts
-          path: |
-            dist/neocord.js
-            dist/neocord.min.js
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload neocord.min.js
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/neocord.min.js
+          asset_name: neocord.min.js
+          asset_content_type: application/javascript
+
+      - name: Upload neocord.js
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/neocord.js
+          asset_name: neocord.js
+          asset_content_type: application/javascript
