@@ -26,8 +26,11 @@ jobs:
         with:
           node-version: '23'
 
-      - name: Install pnpm & dependencies
-        run: npm i pnpm && pnpm i --no-frozen-lockfile
+      - name: Install pnpm
+        run: npm i -g pnpm
+
+      - name: Installdependencies
+        run: pnpm i --no-frozen-lockfile
 
       - name: Build the project
         run: node ./scripts/build.swc.mjs --build-minify=true
