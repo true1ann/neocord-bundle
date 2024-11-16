@@ -28,7 +28,7 @@ jobs:
         run: npm install --no-frozen-lockfile
 
       - name: Build the project
-        run: node ./scripts/build.swc.mjs
+        run: node ./scripts/build.swc.mjs --build-minify=true
         env:
           NODE_ENV: production
           RELEASE_BRANCH: ${{ github.ref_name }}
