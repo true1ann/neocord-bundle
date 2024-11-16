@@ -115,5 +115,6 @@
     "UNINSTALL_TITLE": "Uninstall {title}",
     "URL_PLACEHOLDER": "https://github.com/true1ann/neocord-xposed",
     "VERSION": "Version",
-    "VERSIONS": "Versions"
+    "VERSIONS": "Versions",
+    "CUSTOMCMD": "Custom Commands"
 }
