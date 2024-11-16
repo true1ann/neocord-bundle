@@ -1,13 +1,23 @@
+import { ComponentProps } from "react";
 import { View, Text } from "react-native";
 
-function UnimplementedPage() {
+export default function main() {
     return (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <Text variant="heading-lg/bold">Unimplemented</Text>
-        </View>
+        openAlert("nc-test", 
+            <AlertModal
+                title="Hold On!"
+                content="Test"
+                extraContent={
+                    <Card>
+                        <Text variant="text-md/bold">Extra text</Text>
+                    </Card>
+                }
+                actions={
+                    <AlertActions>
+                        <AlertActionButton text="Close" variant="primary" />
+                    </AlertActions>
+                }
+            />
+        )
     );
-}
-
-export default function Unimplemented() {
-	return <UnimplementedPage />;
 }
