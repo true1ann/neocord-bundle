@@ -1,10 +1,17 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text } from "react-native";
 
-export default function CommandBrowser() {
+function UnimplementedPage() {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Unimplemented</Text>
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            <Text variant="heading-lg/bold">Unimplemented</Text>
         </View>
     );
+}
+
+export default function Unimplemented() {
+	return (
+		<QueryClientProvider client={queryClient}>
+			return <UnimplementedPage />;
+		</QueryClientProvider>
+	);
 }

@@ -51,7 +51,7 @@ export default function initSettings() {
             {
             	key: "NC_DEVELOPER",
             	title: () => Strings.CUSTOMCMD,
-            	icon: findAssetId("ic_application_command"),
+            	icon: findAssetId("ic_application_command_24px"),
             	render: () => import("@core/ui/settings/pages/nc_commands"),
             }
         ]
