@@ -33,7 +33,7 @@ jobs:
         run: pnpm i --no-frozen-lockfile
 
       - name: Build the project
-        run: node ./scripts/build.swc.mjs --build-minify=true
+        run: node ./scripts/build.swc.mjs --build-minify=true --release-branch='mainrel'
         env:
           NODE_ENV: production
           RELEASE_BRANCH: ${{ github.ref_name }}
