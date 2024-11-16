@@ -11,9 +11,7 @@ on:
       - main
       - release-branch
 
-permissions:
-  contents: write
-  actions: read
+permissions: write-all
 
 jobs:
   build:
