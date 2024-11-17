@@ -1,8 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Card, Button, Text } from '@metro/common/components';
-import { openAlert } from '@lib/utils/lazy'; // Assuming openAlert is available for showing alerts
-import { AlertModal, AlertActions, AlertActionButton } from '@lib/utils/lazy'; // Assuming these are available
+
+const { openAlert } = lazyDestructure(() => findByProps("openAlert", "dismissAlert"));
+const { AlertModal, AlertActions, AlertActionButton } = lazyDestructure(() => findByProps("AlertModal", "AlertActions"));
 
 export default function main() {
     const showAlert = () => {
