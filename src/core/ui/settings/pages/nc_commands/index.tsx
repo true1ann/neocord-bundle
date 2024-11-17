@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Card, Button, Text } from '@metro/common/components';
+import { lazyDestructure } from "@lib/utils/lazy";
 
 const { openAlert } = lazyDestructure(() => findByProps("openAlert", "dismissAlert"));
 const { AlertModal, AlertActions, AlertActionButton } = lazyDestructure(() => findByProps("AlertModal", "AlertActions"));
