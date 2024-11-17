@@ -28,6 +28,12 @@ export default function initSettings() {
                 render: () => import("@core/ui/settings/pages/Plugins")
             },
             {
+            	key: "BUNNYEX_PB",
+            	title: () => Strings.EX_PB,
+				icon: findAssetId("img_collectibles_shop"),
+				render: () => import("@core/ui/settings/pages/PluginBrowser")
+            },
+            {
                 key: "BUNNY_THEMES",
                 title: () => Strings.THEMES,
                 icon: findAssetId("PaintPaletteIcon"),
