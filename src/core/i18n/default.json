@@ -116,5 +116,6 @@
     "URL_PLACEHOLDER": "https://github.com/true1ann/neocord-xposed",
     "VERSION": "Version",
     "VERSIONS": "Versions",
-    "CUSTOMCMD": "Custom Commands"
+    "CUSTOMCMD": "Custom Commands",
+    "EX_PB": "(Ex) Plugin Browser"
 }
