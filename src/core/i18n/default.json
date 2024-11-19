@@ -47,7 +47,7 @@
     "ERROR_BOUNDARY_TOOLS_LABEL": "ErrorBoundary Tools",
     "EXTRACT": "Extract",
     "FONT_NAME": "Font Name",
-    "FONTS": "Fonts",
+    "FONTS": "NC:FontLoader",
     "GENERAL": "General",
     "GITHUB": "GitHub",
     "HOLD_UP": "Hold Up",
@@ -81,7 +81,7 @@
     "PLATFORM": "Platform",
     "PLUGIN_REFETCH_FAILED": "Failed to refetch plugin",
     "PLUGIN_REFETCH_SUCCESSFUL": "Successfully refetched plugin",
-    "PLUGINS": "Plugins",
+    "PLUGINS": "NC:VDLoader",
     "REFETCH": "Refetch",
     "RELOAD": "Reload",
     "RELOAD_DISCORD": "Reload Discord",
@@ -106,7 +106,7 @@
     "THEME_EXTRACTOR_DESC": "This pack overrides the following: {fonts}",
     "THEME_REFETCH_FAILED": "Failed to refetch theme",
     "THEME_REFETCH_SUCCESSFUL": "Successfully refetched theme",
-    "THEMES": "Themes",
+    "THEMES": "NC:ThemeLoader",
     "THEMES_RELOAD_FOR_CHANGES": "Reload the app to fully apply changes",
     "TOASTS_INSTALLED_PLUGIN": "Installed plugin",
     "TOASTS_PLUGIN_UPDATE": "{update, select, true {Enabled} other {Disabled}} updates for {name}",
@@ -117,5 +117,5 @@
     "VERSION": "Version",
     "VERSIONS": "Versions",
     "CUSTOMCMD": "Custom Commands",
-    "EX_PB": "(Ex) Plugin Browser"
+    "EX_PB": "NC:BUN Plugin Browser"
 }
