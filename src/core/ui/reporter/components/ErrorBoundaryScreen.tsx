@@ -43,7 +43,7 @@ export default function ErrorBoundaryScreen(props: {
             </ScrollView>
             <Card style={{ gap: 6 }}>
                 <Button text={Strings.CRASH_BUTTON_RELOAD} onPress={() => BundleUpdaterManager.reload()} />
-                {!settings.safeMode?.enabled && <Button text=Strings.{CRASH_BUTTON_SAFE_RELOAD} onPress={() => toggleSafeMode()} />}
+                {!settings.safeMode?.enabled && <Button text={Strings.CRASH_BUTTON_SAFE_RELOAD} onPress={() => toggleSafeMode()} />}
                 <Button variant="destructive" text={Strings.CRASH_BUTTON_RETRY_RENDER} onPress={() => props.rerender()} />
             </Card>
         </SafeAreaView>
