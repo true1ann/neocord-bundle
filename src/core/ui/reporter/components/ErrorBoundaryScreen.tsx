@@ -32,8 +32,8 @@ export default function ErrorBoundaryScreen(props: {
     return <ErrorBoundary>
         <SafeAreaView style={styles.container}>
             <View style={{ gap: 4 }}>
-                <Text variant="display-lg">Strings.CRASH_SLOGAN</Text>
-                <Text variant="text-md/normal">Strings.CRASH_HEADER</Text>
+                <Text variant="display-lg">{Strings.CRASH_SLOGAN}</Text>
+                <Text variant="text-md/normal">{Strings.CRASH_HEADER}</Text>
                 <Text variant="text-sm/normal" color="text-muted">{debugInfo.os.name}; {debugInfo.discord.build} ({debugInfo.discord.version}); {debugInfo.bunny.version}</Text>
             </View>
             <ScrollView fadingEdgeLength={64} contentContainerStyle={{ gap: 12 }}>
@@ -42,9 +42,9 @@ export default function ErrorBoundaryScreen(props: {
                 {isComponentStack(props.error) ? <ErrorComponentStackCard componentStack={props.error.componentStack} /> : null}
             </ScrollView>
             <Card style={{ gap: 6 }}>
-                <Button text=Strings.CRASH_BUTTON_RELOAD onPress={() => BundleUpdaterManager.reload()} />
-                {!settings.safeMode?.enabled && <Button text=Strings.CRASH_BUTTON_SAFE_RELOAD onPress={() => toggleSafeMode()} />}
-                <Button variant="destructive" text=Strings.CRASH_BUTTON_RETRY_RENDER onPress={() => props.rerender()} />
+                <Button text={Strings.CRASH_BUTTON_RELOAD} onPress={() => BundleUpdaterManager.reload()} />
+                {!settings.safeMode?.enabled && <Button text=Strings.{CRASH_BUTTON_SAFE_RELOAD} onPress={() => toggleSafeMode()} />}
+                <Button variant="destructive" text={Strings.CRASH_BUTTON_RETRY_RENDER} onPress={() => props.rerender()} />
             </Card>
         </SafeAreaView>
     </ErrorBoundary>;
