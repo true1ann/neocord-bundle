@@ -47,7 +47,7 @@ export function initFetchI18nStrings() {
             _loadedLocale.add(resolvedLocale);
             
             try {
-                const localFileResponse = await fetch(`./locales/${resolvedLocale}.json`);
+                const localFileResponse = await fetch(`./${resolvedLocale}.json`);
                 if (localFileResponse.ok) {
                     const strings = await localFileResponse.json();
                     _loadedStrings[resolvedLocale] = strings;
