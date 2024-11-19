@@ -110,12 +110,17 @@
     "THEMES_RELOAD_FOR_CHANGES": "Reload the app to fully apply changes",
     "TOASTS_INSTALLED_PLUGIN": "Installed plugin",
     "TOASTS_PLUGIN_UPDATE": "{update, select, true {Enabled} other {Disabled}} updates for {name}",
-    "UH_OH": "Uh Oh",
+    "UH_OH": "Uh Oh.",
     "UNINSTALL": "Uninstall",
     "UNINSTALL_TITLE": "Uninstall {title}",
     "URL_PLACEHOLDER": "https://github.com/true1ann/neocord-xposed",
     "VERSION": "Version",
     "VERSIONS": "Versions",
     "CUSTOMCMD": "Custom Commands",
-    "EX_PB": "NC:BUN Plugin Browser"
+    "EX_PB": "NC:BUN Plugin Browser",
+    "CRASH_HEADER": "A crash occured while rendering a component. This could be caused by a plugin, NeoCord or Discord itself.",
+    "CRASH_SLOGAN": "Uh Oh.",
+    "CRASH_BUTTON_RELOAD": "Reload Discord",
+    "CRASH_BUTTON_SAFE_RELOAD": "Reload in Safe Mode",
+    "CRASH_BUTTON_RETRY_RENDER": "Retry Render"
 }

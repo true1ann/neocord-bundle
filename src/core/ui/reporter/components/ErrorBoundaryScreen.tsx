@@ -7,6 +7,7 @@ import { createStyles } from "@lib/ui/styles";
 import { tokens } from "@metro/common";
 import { Button, Card, SafeAreaView, Text } from "@metro/common/components";
 import { ScrollView, View } from "react-native";
+import { Strings } from "@core/i18n";
 
 import ErrorComponentStackCard from "./ErrorComponentStackCard";
 import ErrorStackCard from "./ErrorStackCard";
@@ -31,8 +32,8 @@ export default function ErrorBoundaryScreen(props: {
     return <ErrorBoundary>
         <SafeAreaView style={styles.container}>
             <View style={{ gap: 4 }}>
-                <Text variant="display-lg">Uh oh.</Text>
-                <Text variant="text-md/normal">A crash occured while rendering a component. This could be caused by a plugin, Bunny or Discord itself.</Text>
+                <Text variant="display-lg">Strings.CRASH_SLOGAN</Text>
+                <Text variant="text-md/normal">Strings.CRASH_HEADER</Text>
                 <Text variant="text-sm/normal" color="text-muted">{debugInfo.os.name}; {debugInfo.discord.build} ({debugInfo.discord.version}); {debugInfo.bunny.version}</Text>
             </View>
             <ScrollView fadingEdgeLength={64} contentContainerStyle={{ gap: 12 }}>
@@ -41,9 +42,9 @@ export default function ErrorBoundaryScreen(props: {
                 {isComponentStack(props.error) ? <ErrorComponentStackCard componentStack={props.error.componentStack} /> : null}
             </ScrollView>
             <Card style={{ gap: 6 }}>
-                <Button text="Reload Discord" onPress={() => BundleUpdaterManager.reload()} />
-                {!settings.safeMode?.enabled && <Button text="Reload in Safe Mode" onPress={() => toggleSafeMode()} />}
-                <Button variant="destructive" text="Retry Render" onPress={() => props.rerender()} />
+                <Button text=Strings.CRASH_BUTTON_RELOAD onPress={() => BundleUpdaterManager.reload()} />
+                {!settings.safeMode?.enabled && <Button text=Strings.CRASH_BUTTON_SAFE_RELOAD onPress={() => toggleSafeMode()} />}
+                <Button variant="destructive" text=Strings.CRASH_BUTTON_RETRY_RENDER onPress={() => props.rerender()} />
             </Card>
         </SafeAreaView>
     </ErrorBoundary>;
