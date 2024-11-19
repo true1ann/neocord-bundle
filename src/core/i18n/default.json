@@ -118,9 +118,5 @@
     "VERSIONS": "Versions",
     "CUSTOMCMD": "Custom Commands",
     "EX_PB": "NC:BUN Plugin Browser",
-    "CRASH_HEADER": "A crash occured while rendering a component. This could be caused by a plugin, NeoCord or Discord itself.",
-    "CRASH_SLOGAN": "Uh Oh.",
-    "CRASH_BUTTON_RELOAD": "Reload Discord",
-    "CRASH_BUTTON_SAFE_RELOAD": "Reload in Safe Mode",
-    "CRASH_BUTTON_RETRY_RENDER": "Retry Render"
+    "CRASH_HEADER": "A crash occured while rendering a component. This could be caused by a plugin, NeoCord or Discord itself."
 }

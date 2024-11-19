@@ -24,7 +24,7 @@ export const Strings = new Proxy({}, {
 }) as Record<I18nKey, string>;
 
 export function initFetchI18nStrings() {
-    const cb = ({ locale }: { locale: string; }) => {
+    const cb = async ({ locale }: { locale: string; }) => {
         const languageMap = {
             "es-ES": "es",
             "es-419": "es_419",
@@ -32,7 +32,8 @@ export function initFetchI18nStrings() {
             "zh-CN": "zh-Hans",
             "pt-PT": "pt",
             "pt-BR": "pt_BR",
-            "sv-SE": "sv"
+            "sv-SE": "sv",
+            "ru-ru": "ru"
         } as Record<string, string>;
 
         const resolvedLocale = _lastSetLocale = languageMap[locale] ?? locale;
@@ -44,12 +45,28 @@ export function initFetchI18nStrings() {
 
         if (!_loadedLocale.has(resolvedLocale)) {
             _loadedLocale.add(resolvedLocale);
-
+            
+            try {
+                const localFileResponse = await fetch(`./locales/${resolvedLocale}.json`);
+                if (localFileResponse.ok) {
+                    const strings = await localFileResponse.json();
+                    _loadedStrings[resolvedLocale] = strings;
+                    _currentLocale = resolvedLocale;
+                    return;
+                }
+            } catch (e) {
+                console.error(`Error fetching local file for ${resolvedLocale}: ${e}`);
+            }
+            
             fetch(`https://raw.githubusercontent.com/pyoncord/i18n/main/resources/${resolvedLocale}/bunny.json`)
                 .then(r => r.json())
-                .then(strings => _loadedStrings[resolvedLocale] = strings)
-                .then(() => resolvedLocale === _lastSetLocale && (_currentLocale = resolvedLocale))
-                .catch(e => console.error(`An error occured while fetching strings for ${resolvedLocale}: ${e}`));
+                .then(strings => {
+                    _loadedStrings[resolvedLocale] = strings;
+                    if (resolvedLocale === _lastSetLocale) {
+                        _currentLocale = resolvedLocale;
+                    }
+                })
+                .catch(e => console.error(`An error occurred while fetching strings for ${resolvedLocale}: ${e}`));
         } else {
             _currentLocale = resolvedLocale;
         }
