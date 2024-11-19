@@ -1,3 +1,4 @@
+import { Strings } from "@core/i18n";
 import { hasStack, isComponentStack } from "@core/ui/reporter/utils/isStack";
 import { getDebugInfo, toggleSafeMode } from "@lib/api/debug";
 import { BundleUpdaterManager } from "@lib/api/native/modules";
@@ -7,7 +8,6 @@ import { createStyles } from "@lib/ui/styles";
 import { tokens } from "@metro/common";
 import { Button, Card, SafeAreaView, Text } from "@metro/common/components";
 import { ScrollView, View } from "react-native";
-import { Strings } from "@core/i18n";
 
 import ErrorComponentStackCard from "./ErrorComponentStackCard";
 import ErrorStackCard from "./ErrorStackCard";
