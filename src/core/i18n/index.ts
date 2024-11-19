@@ -34,7 +34,8 @@ export function initFetchI18nStrings() {
             "pt-PT": "pt",
             "pt-BR": "pt_BR",
             "sv-SE": "sv",
-            "ru-ru": "ru"
+            "ru-ru": "ru-ru",
+            "ru": "ru-ru"
         } as Record<string, string>;
 
         const resolvedLocale = _lastSetLocale = languageMap[locale] ?? locale;
