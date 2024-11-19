@@ -38,6 +38,8 @@ export function initFetchI18nStrings() {
 
         const resolvedLocale = _lastSetLocale = languageMap[locale] ?? locale;
 
+		console.log(`LOCALES: ${resolvedLocale} | ${_currentLocale}`)
+
         if (resolvedLocale.startsWith("en-")) {
             _currentLocale = null;
             return;
