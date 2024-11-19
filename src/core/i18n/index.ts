@@ -1,3 +1,4 @@
+import { logger } from "@lib/utils/logger";
 import { FluxDispatcher } from "@metro/common";
 import { findByNameLazy } from "@metro/wrappers";
 import { PrimitiveType } from "intl-messageformat";
@@ -38,7 +39,7 @@ export function initFetchI18nStrings() {
 
         const resolvedLocale = _lastSetLocale = languageMap[locale] ?? locale;
 
-		console.log(`LOCALES: ${resolvedLocale} | ${_currentLocale}`)
+		logger.log(`LOCALES: ${resolvedLocale} | ${_currentLocale}`)
 
         if (resolvedLocale.startsWith("en-")) {
             _currentLocale = null;

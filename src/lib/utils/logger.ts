@@ -1,3 +1,4 @@
+import { Strings } from "@core/i18n";
 import { findByNameLazy } from "@metro/wrappers";
 
 type LoggerFunction = (...messages: any[]) => void;
@@ -12,4 +13,4 @@ export interface Logger {
 }
 
 export const LoggerClass = findByNameLazy("Logger");
-export const logger: Logger = new LoggerClass("Revenge");
+export const logger: Logger = new LoggerClass({Strings.BUNNY});
