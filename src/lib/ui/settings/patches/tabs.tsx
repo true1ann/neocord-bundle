@@ -23,6 +23,7 @@ export function patchTabsUI(unpatches: (() => void | boolean)[]) {
                 type: "pressable",
                 title: row.title,
                 icon: row.icon,
+                IconComponent: () => TableRowIcon({ source: row.icon }),
                 usePredicate: row.usePredicate,
                 useTrailing: row.useTrailing,
                 onPress: wrapOnPress(row.onPress, null, row.render, row.title()),
