@@ -1,3 +1,5 @@
+<img src="src/assets/icons/logo.png" alt="NC Logo" width="150" height="auto">
+
 # NeoCord - Bundle
 
 # What is "NeoCord"? (Reffered as `NC` in code)
