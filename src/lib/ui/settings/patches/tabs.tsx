@@ -3,7 +3,7 @@ import { findInReactTree } from "@lib/utils";
 import { i18n } from "@metro/common";
 import { findByNameLazy, findByPropsLazy } from "@metro/wrappers";
 import { registeredSections } from "@ui/settings";
-import { TableRowIcon } from "@metro/common";
+import { TableRowIcon } from "@metro/common/components";
 
 import { CustomPageRenderer, wrapOnPress } from "./shared";
 import { Strings } from "@core/i18n";
