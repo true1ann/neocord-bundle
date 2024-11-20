@@ -24,6 +24,6 @@ Information will change as fast as itll form, so check back later! We will also 
 
 # Notes
 
-* 1 - doesnt mean that normal non-coders, or people which dont know TS/JS wont be able to use NC correctly
+* 1 - doesnt mean that people which are not interested, do not, or cant code mustnt or cant use NC. NC is made for everyone, from people to people
 * 2 - name(s) may or may not change later
 * 3 - It will only store links to them, CloudSync probably wont work for NC, because it probably wont pick up the NC.VDLoader plugin loader
