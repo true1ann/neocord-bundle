@@ -16,7 +16,6 @@ import { isPyonLoader, isThemeSupported } from "@lib/api/native/loader";
 import { patchJsx } from "@lib/api/react/jsx";
 import { logger } from "@lib/utils/logger";
 import { patchSettings } from "@ui/settings";
-import { settings } from "@lib/api/settings";
 
 import * as lib from "./lib";
 
@@ -36,16 +35,7 @@ function maybeLoadThemes() {
 export default async () => {
     maybeLoadThemes();
 
-// Load required
-    await Promise.all([
-        initSettings()
-    ]).then(
-        // unload
-        u => u.forEach(f => f && lib.unload.push(f))
-    );
-        
-    
-// Load everything in parallel
+    // Load everything in parallel
     await Promise.all([
         wrapSafeAreaProvider(),
         injectFluxInterceptor(),
@@ -57,7 +47,8 @@ export default async () => {
         initVendettaObject(),
         initFetchI18nStrings(),
         initFixes(),
-        settings.doPatchErrorBoundary ? patchErrorBoundary() : Promise.resolve(),
+        initSettings(),
+        patchErrorBoundary(),
         updatePlugins()
     ]).then(
         // Push them all to unloader
