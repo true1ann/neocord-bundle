@@ -46,7 +46,7 @@ export default async () => {
     await maybeLoadThemes();
 
     // Load everything in parallel
-    wait Promise.all([
+    await Promise.all([
         wrapSafeAreaProvider(),
         injectFluxInterceptor(),
         patchSettings(),
