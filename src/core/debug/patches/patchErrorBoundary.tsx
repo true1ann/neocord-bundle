@@ -3,6 +3,7 @@ import { after } from "@lib/api/patcher";
 import { _lazyContextSymbol } from "@metro/lazy";
 import { LazyModuleContext } from "@metro/types";
 import { findByNameLazy } from "@metro/wrappers";
+import { useProxy } from "@core/vendetta/storage";
 import { settings } from "@lib/api/settings";
 import { logger } from "@lib/utils/logger";
 
@@ -13,8 +14,8 @@ function getErrorBoundaryContext() {
 
 export default function patchErrorBoundary() {
     logger.log('Attempting to get Patching status..')
-    logger.log(settings.doPatchErrorBoundary)
-    if (settings.doPatchErrorBoundary) {
+    logger.log(useProxy(settings).doPatchErrorBoundary)
+    if (useProxy(settings).doPatchErrorBoundary) {
         return after.await("render", getErrorBoundaryContext(), function (this: any) {
             if (!this.state.error) return;
 
