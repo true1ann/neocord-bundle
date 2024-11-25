@@ -37,7 +37,7 @@ export default async () => {
     maybeLoadThemes();
 
 // Load required
-    await.Promise.all([
+    await Promise.all([
         initSettings()
     ]).then(
         // unload
