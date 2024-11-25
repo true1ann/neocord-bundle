@@ -72,4 +72,5 @@ export default async () => {
 
     // We good :)
     logger.log("NeoCord is ready!");
+    logger.log(`Do we technically patch EB? ${settings.doPatchErrorBoundary}`);
 };
