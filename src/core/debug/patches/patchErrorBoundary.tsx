@@ -14,7 +14,7 @@ function getErrorBoundaryContext() {
 
 export default function patchErrorBoundary() {
     return after.await("render", getErrorBoundaryContext(), function (this: any, ret: any) {
-    if (!settings.doPatchErrorBoundary) return ret;
+    if (!settings.doPatchErrorBoundary) return;
     if (!this.state.error) return;
 
     return <ErrorBoundaryScreen
