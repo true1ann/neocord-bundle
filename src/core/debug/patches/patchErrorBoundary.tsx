@@ -14,7 +14,7 @@ export default function patchErrorBoundary() {
     const settings = useProxy();
     
     if (!settings.doPatchErrorBoundary) {
-        return;
+        return <ErrorBoundaryScreen />;
     }
 
     return after.await("render", getErrorBoundaryContext(), function (this: any) {
