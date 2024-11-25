@@ -61,7 +61,7 @@ export default async () => {
         updatePlugins()
     ]).then(
         // Push them all to unloader
-        u => u && u.forEach(f => f && lib.unload.push(f));
+        u => u.forEach(f => f && lib.unload.push(f))
     );
 
     // Assign window object
