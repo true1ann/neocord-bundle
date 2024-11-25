@@ -35,6 +35,14 @@ function maybeLoadThemes() {
 export default async () => {
     maybeLoadThemes();
 
+    // Load required
+    await Promise.all([
+        initSettings()
+    ]).then(
+        // unload
+        u => u.forEach(f => f && lib.unload.push(f))
+    );
+    
     // Load everything in parallel
     await Promise.all([
         wrapSafeAreaProvider(),
@@ -47,7 +55,6 @@ export default async () => {
         initVendettaObject(),
         initFetchI18nStrings(),
         initFixes(),
-        initSettings(),
         patchErrorBoundary(),
         updatePlugins()
     ]).then(
