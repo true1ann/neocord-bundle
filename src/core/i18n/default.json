@@ -118,5 +118,7 @@
     "VERSIONS": "Versions",
     "CUSTOMCMD": "Custom Commands",
     "EX_PB": "NC:BUN Plugin Browser",
-    "CRASH_HEADER": "A crash occured while rendering a component. This could be caused by a plugin, NeoCord or Discord itself."
+    "CRASH_HEADER": "A crash occured while rendering a component. This could be caused by a plugin, NeoCord or Discord itself.",
+    "NC_PATCHERRBOUNDARY": "Patch ErrorBoundary",
+    "NC_PATCHERRBOUNDARY_DESC": "Will make crash screen more detailed, in exchange for launching speed."
 }

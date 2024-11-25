@@ -20,6 +20,10 @@ export interface LoaderConfig {
     loadReactDevTools: boolean;
 }
 
+export interface NeoCordConfig {
+	doPatchErrorBoundary: boolean;
+}
+
 export const settings = wrapSync(createStorage<Settings>(createMMKVBackend("VENDETTA_SETTINGS")));
 
 export const loaderConfig = wrapSync(createStorage<LoaderConfig>(
