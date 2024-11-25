@@ -13,9 +13,12 @@ function getErrorBoundaryContext() {
 }
 
 export default function patchErrorBoundary() {
-    logger.log('Attempting to get Patching status..')
-    logger.log(useProxy(settings).doPatchErrorBoundary)
-    if (useProxy(settings).doPatchErrorBoundary) {
+    useProxy(settings);
+    
+    logger.log('Attempting to get Patching status, and settings comp')
+    logger.log(settings)
+    logger.log(settings.doPatchErrorBoundary)
+    if (settings.doPatchErrorBoundary) {
         return after.await("render", getErrorBoundaryContext(), function (this: any) {
             if (!this.state.error) return;
 
