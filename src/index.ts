@@ -36,7 +36,7 @@ function maybeLoadThemes() {
 export default async () => {
     maybeLoadThemes();
 
-    const settings = await wrapSync(createStorage<Settings>(createMMKVBackend("VENDETTA_SETTINGS")));
+    const initsettings = await wrapSync(createStorage<Settings>(createMMKVBackend("VENDETTA_SETTINGS")));
     
     // Preload
     //let preloaded = [];
@@ -58,7 +58,7 @@ export default async () => {
         initVendettaObject(),
         initFetchI18nStrings(),
         initFixes(),
-        settings.doPatchErrorBoundary ? patchErrorBoundary() : Promise.resolve(),
+        initsettings.doPatchErrorBoundary ? patchErrorBoundary() : Promise.resolve(),
         initSettings(),
         updatePlugins()
     ]).then(
