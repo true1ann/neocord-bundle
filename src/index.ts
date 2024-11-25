@@ -20,32 +20,33 @@ import { settings } from "@lib/api/settings";
 
 import * as lib from "./lib";
 
-function maybeLoadThemes() {
+async function maybeLoadThemes() {
     if (!isThemeSupported()) return;
 
     try {
         if (isPyonLoader()) {
-            writeFile("../vendetta_theme.json", "null");
+            await writeFile("../vendetta_theme.json", "null");
         }
-        initThemes();
+        await initThemes();
     } catch (e) {
         console.error("Failed to initialize themes", e);
     }
 }
 
+async function waitForSetting(setting: string, maxAttempts: number, delay: number): Promise<any> {
+    let attempts = 0;
+    while (settings[setting] === undefined && attempts < maxAttempts) {
+        attempts++;
+        await new Promise(resolve => setTimeout(resolve, delay));
+    }
+    return settings[setting];
+}
+
 export default async () => {
-    maybeLoadThemes();
-    
-    // Preload
-    //let preloaded = [];
-    //await Promise.all([
-        
-    //]).then(
-        //u => u.forEach(f => preloaded.push(f))
-    //);
+    await maybeLoadThemes();
 
     // Load everything in parallel
-    await Promise.all([
+    wait Promise.all([
         wrapSafeAreaProvider(),
         injectFluxInterceptor(),
         patchSettings(),
@@ -60,47 +61,46 @@ export default async () => {
         updatePlugins()
     ]).then(
         // Push them all to unloader
-        u => u.forEach(f => f && lib.unload.push(f))
+        u => u && u.forEach(f => f && lib.unload.push(f));
     );
-
-    // Unload preloaded components
-    //preloaded.forEach(f => f && lib.unload.push(f));
 
     // Assign window object
     window.bunny = lib;
 
     // Once done, load Vendetta plugins
-    VdPluginManager.initPlugins()
-        .then(u => lib.unload.push(u))
-        .catch(() => alert("Failed to initialize Vendetta plugins"));
+    try {
+        const vendettaPlugins = await VdPluginManager.initPlugins();
+        lib.unload.push(vendettaPlugins);
+    } catch {
+        alert("Failed to initialize Vendetta plugins");
+    }
 
-    // And then, load Bunny plugins
+    // Load Bunny plugins
     initPlugins();
 
     // Update the fonts
     updateFonts();
 
-    let i = 0
-    
-    const ncinit_maxAttempts = 100;
+    // Wait for the setting to be defined
+    const ncinit_doPatchErrorBoundary = await waitForSetting('doPatchErrorBoundary', 100, 100);
 
-    while (settings.doPatchErrorBoundary === undefined && i < ncinit_maxAttempts) {
-        i++;
-        logger.log(`Failed to get doPatchErrorBoundary for ${i} times!`);
-        await new Promise(resolve => setTimeout(resolve, 100));
-    }
-
-    if (settings.doPatchErrorBoundary) {
-        const u = await patchErrorBoundary();
-        u && lib.unload.push(u);
-    } else if (settings.doPatchBoundary === undefined) {
-        logger.log("Reached maximum attempts and still no boolean. Force loading.");
-        const u = await patchErrorBoundary();
-        u && lib.unload.push(u);
+    if (ncinit_doPatchErrorBoundary === undefined) {
+        logger.log("Reached maximum attempts, trying to get with eval()");
+        const evalResult = eval(vendetta.settings.doPatchErrorBoundary);
+        if (evalResult) {
+            const u = await patchErrorBoundary();
+            u && lib.unload.push(u);
+        }
     } else {
-        logger.log("errorBoundary is NOT patched. You can change this behaviour in Developer settings.");
+        logger.log("Reached maximum attempts, but value is valid.");
+        if (ncinit_doPatchErrorBoundary) {
+            const u = await patchErrorBoundary();
+            u && lib.unload.push(u);
+        } else {
+            logger.log("errorBoundary is NOT patched. You can change this behaviour in Developer settings.");
+        }
     }
-    
+
     // We good :)
     logger.log("NeoCord is ready!");
 };
