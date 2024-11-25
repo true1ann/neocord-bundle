@@ -35,14 +35,14 @@ function maybeLoadThemes() {
 export default async () => {
     maybeLoadThemes();
 
-    // Load required
+    // Preload
+    let preloaded = [];
     await Promise.all([
         initSettings()
     ]).then(
-        // unload
-        u => u.forEach(f => f && lib.unload.push(f))
+        u => u.forEach(f => preloaded.push(f))
     );
-    
+
     // Load everything in parallel
     await Promise.all([
         wrapSafeAreaProvider(),
@@ -62,6 +62,9 @@ export default async () => {
         u => u.forEach(f => f && lib.unload.push(f))
     );
 
+    // Unload preloaded components
+    preloaded.forEach(f => f && lib.unload.push(f));
+
     // Assign window object
     window.bunny = lib;
 
@@ -78,5 +81,4 @@ export default async () => {
 
     // We good :)
     logger.log("NeoCord is ready!");
-    logger.log(`Do we technically patch EB? ${settings.doPatchErrorBoundary}`);
 };
