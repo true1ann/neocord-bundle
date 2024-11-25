@@ -14,12 +14,11 @@ function getErrorBoundaryContext() {
 
 export default function patchErrorBoundary() {
     return after.await("render", getErrorBoundaryContext(), function (this: any, ret: any) {
-    if (!settings.doPatchErrorBoundary) return;
-    if (!this.state.error) return;
+        if (!this.state.error) return;
 
-    return <ErrorBoundaryScreen
-        error={this.state.error}
-        rerender={() => this.setState({ info: null, error: null })}
-        />;
+        return <ErrorBoundaryScreen
+                error={this.state.error}
+                rerender={() => this.setState({ info: null, error: null })}
+            />;
     });
 }
