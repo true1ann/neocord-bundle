@@ -16,7 +16,7 @@ import { isPyonLoader, isThemeSupported } from "@lib/api/native/loader";
 import { patchJsx } from "@lib/api/react/jsx";
 import { logger } from "@lib/utils/logger";
 import { patchSettings } from "@ui/settings";
-import { settings } from "@lib/api/settings";
+import { createFileBackend, createMMKVBackend, createStorage, wrapSync } from "@core/vendetta/storage";
 
 import * as lib from "./lib";
 
@@ -36,6 +36,8 @@ function maybeLoadThemes() {
 export default async () => {
     maybeLoadThemes();
 
+    const settings = await wrapSync(createStorage<Settings>(createMMKVBackend("VENDETTA_SETTINGS")));
+    
     // Preload
     //let preloaded = [];
     //await Promise.all([
