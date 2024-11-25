@@ -3,7 +3,6 @@ import { after } from "@lib/api/patcher";
 import { _lazyContextSymbol } from "@metro/lazy";
 import { LazyModuleContext } from "@metro/types";
 import { findByNameLazy } from "@metro/wrappers";
-import { useProxy } from "@core/vendetta/storage";
 
 function getErrorBoundaryContext() {
     const ctxt: LazyModuleContext = findByNameLazy("ErrorBoundary")[_lazyContextSymbol];
@@ -11,13 +10,7 @@ function getErrorBoundaryContext() {
 }
 
 export default function patchErrorBoundary() {
-    useProxy(settings);
-    
-    if (!settings.doPatchErrorBoundary) {
-        return;
-    }
-
-    return after.await("render", getErrorBoundaryContext(), function (this: any) {
+   return after.await("render", getErrorBoundaryContext(), function (this: any) {
         if (!this.state.error) return;
 
         return <ErrorBoundaryScreen
