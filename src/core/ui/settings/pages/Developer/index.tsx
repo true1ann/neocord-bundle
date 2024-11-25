@@ -78,6 +78,16 @@ export default function Developer() {
                     		value={settings.doPatchErrorBoundary}
                     		onValueChange={(v: boolean) => {
                     			settings.doPatchErrorBoundary = v;
+					openAlert("neocord-patch-errboundary-reload-confirmation", <AlertModal
+                                            title={Strings.MODAL_RELOAD_REQUIRED}
+                                            content={Strings.MODAL_RELOAD_REQUIRED_DESC}
+                                            actions={
+                                                <Stack>
+                                                    <AlertActionButton text={Strings.RELOAD} variant="destructive" onPress={() => NativeModules.BundleUpdaterManager.reload()} />
+                                                    <AlertActionButton text={Strings.CANCEL} variant="secondary" />
+                                                </Stack>
+                                            }
+                                        />);
                     		}}
                     	/>
           			</TableRowGroup>
