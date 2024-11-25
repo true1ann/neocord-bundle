@@ -16,7 +16,7 @@ import { isPyonLoader, isThemeSupported } from "@lib/api/native/loader";
 import { patchJsx } from "@lib/api/react/jsx";
 import { logger } from "@lib/utils/logger";
 import { patchSettings } from "@ui/settings";
-import { useProxy } from "@core/vendetta/storage";
+import { settings } from "@lib/api/settings";
 
 import * as lib from "./lib";
 
@@ -36,9 +36,7 @@ function maybeLoadThemes() {
 export default async () => {
     maybeLoadThemes();
 
-    useProxy(settings);
-    
-    // Load everything in parallel
+// Load everything in parallel
     await Promise.all([
         wrapSafeAreaProvider(),
         injectFluxInterceptor(),
