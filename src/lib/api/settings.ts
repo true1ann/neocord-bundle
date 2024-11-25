@@ -10,6 +10,7 @@ export interface Settings {
         currentThemeId?: string;
     };
     enableEvalCommand?: boolean;
+    doPatchErrorBoundary: boolean;
 }
 
 export interface LoaderConfig {
@@ -18,10 +19,6 @@ export interface LoaderConfig {
         url: string;
     };
     loadReactDevTools: boolean;
-}
-
-export interface NeoCordConfig {
-	doPatchErrorBoundary: boolean;
 }
 
 export const settings = wrapSync(createStorage<Settings>(createMMKVBackend("VENDETTA_SETTINGS")));
