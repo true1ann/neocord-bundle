@@ -16,7 +16,7 @@ import { isPyonLoader, isThemeSupported } from "@lib/api/native/loader";
 import { patchJsx } from "@lib/api/react/jsx";
 import { logger } from "@lib/utils/logger";
 import { patchSettings } from "@ui/settings";
-import { createFileBackend, createMMKVBackend, createStorage, wrapSync } from "@core/vendetta/storage";
+import { settings } from "@lib/api/settings";
 
 import * as lib from "./lib";
 
@@ -35,8 +35,6 @@ function maybeLoadThemes() {
 
 export default async () => {
     maybeLoadThemes();
-
-    const initsettings = await wrapSync(createStorage<Settings>(createMMKVBackend("VENDETTA_SETTINGS")));
     
     // Preload
     //let preloaded = [];
@@ -58,7 +56,6 @@ export default async () => {
         initVendettaObject(),
         initFetchI18nStrings(),
         initFixes(),
-        initsettings.doPatchErrorBoundary ? patchErrorBoundary() : Promise.resolve(),
         initSettings(),
         updatePlugins()
     ]).then(
@@ -83,6 +80,27 @@ export default async () => {
     // Update the fonts
     updateFonts();
 
+    let i = 0
+    
+    const ncinit_maxAttempts = 100;
+
+    while (settings.doPatchErrorBoundary === undefined && i < ncinit_maxAttempts) {
+        i++;
+        logger.log(`Failed to get doPatchErrorBoundary for ${i} times!`);
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
+    if (settings.doPatchErrorBoundary) {
+        const u = await patchErrorBoundary();
+        u && lib.unload.push(u);
+    } else if (settings.doPatchBoundary === undefined) {
+        logger.log("Reached maximum attempts and still no boolean. Force loading.");
+        const u = await patchErrorBoundary();
+        u && lib.unload.push(u);
+    } else {
+        logger.log("errorBoundary is NOT patched. You can change this behaviour in Developer settings.");
+    }
+    
     // We good :)
     logger.log("NeoCord is ready!");
 };
