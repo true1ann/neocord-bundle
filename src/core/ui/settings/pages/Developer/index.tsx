@@ -75,9 +75,9 @@ export default function Developer() {
                     		label={Strings.NC_PATCHERRBOUNDARY}
                     		subLabel={Strings.NC_PATCHERRBOUNDARY_DESC}
                     		icon={<TableRow.Icon source={findAssetId("ic_stop_stream_24px")} />}
-                    		value={NeoCordConfig.doPatchErrorBoundary}
+                    		value={settings.doPatchErrorBoundary}
                     		onValueChange={(v: boolean) => {
-                    			NeoCordConfig.doPatchErrorBoundary = v;
+                    			settings.doPatchErrorBoundary = v;
                     		}}
                     	/>
           			</TableRowGroup>
