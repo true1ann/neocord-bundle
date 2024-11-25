@@ -77,7 +77,7 @@ export default function Developer() {
                     		icon={<TableRow.Icon source={findAssetId("ic_stop_stream_24px")} />}
                     		value={doPatchErrorBoundary}
                     		onValueChange={(v: boolean) => {
-                    			doPatchErrorBoundary = v;
+                    			NeoCordConfig.doPatchErrorBoundary = v;
                     		}}
                     	/>
           			</TableRowGroup>
