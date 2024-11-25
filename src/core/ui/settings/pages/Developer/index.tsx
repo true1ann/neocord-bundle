@@ -71,15 +71,16 @@ export default function Developer() {
                     </TableRowGroup>
                     
 					<TableRowGroup title="NeoCord specific">
-                            <TableSwitchRow
-                                label={Strings.NC_PATCHERRBOUNDARY}
-                                subLabel={Strings.NC_PATCHERRBOUNDARY_DESC}
-                                icon={<TableRow.Icon source={findAssetId("ic_stop_stream_24px")} />}
-                                value={doPatchErrorBoundary}
-                                onValueChange={(v: boolean) => {
-                                    doPatchErrorBoundary = v;
-                                }}
-          </TableRowGroup>
+                    	<TableSwitchRow
+                    		label={Strings.NC_PATCHERRBOUNDARY}
+                    		subLabel={Strings.NC_PATCHERRBOUNDARY_DESC}
+                    		icon={<TableRow.Icon source={findAssetId("ic_stop_stream_24px")} />}
+                    		value={doPatchErrorBoundary}
+                    		onValueChange={(v: boolean) => {
+                    			doPatchErrorBoundary = v;
+                    		}}
+                    	/>
+          			</TableRowGroup>
                     
                     {isLoaderConfigSupported() && <>
                         <TableRowGroup title="Loader config">
