@@ -16,6 +16,7 @@ import { isPyonLoader, isThemeSupported } from "@lib/api/native/loader";
 import { patchJsx } from "@lib/api/react/jsx";
 import { logger } from "@lib/utils/logger";
 import { patchSettings } from "@ui/settings";
+import { settings } from "@lib/api/settings";
 
 import * as lib from "./lib";
 
@@ -36,12 +37,12 @@ export default async () => {
     maybeLoadThemes();
 
     // Preload
-    let preloaded = [];
-    await Promise.all([
-        initSettings()
-    ]).then(
-        u => u.forEach(f => preloaded.push(f))
-    );
+    //let preloaded = [];
+    //await Promise.all([
+        
+    //]).then(
+        //u => u.forEach(f => preloaded.push(f))
+    //);
 
     // Load everything in parallel
     await Promise.all([
@@ -55,6 +56,7 @@ export default async () => {
         initVendettaObject(),
         initFetchI18nStrings(),
         initFixes(),
+        settings.doPatchErrorBoundary ? initSettings() : Promise.resolve(),
         patchErrorBoundary(),
         updatePlugins()
     ]).then(
@@ -63,7 +65,7 @@ export default async () => {
     );
 
     // Unload preloaded components
-    preloaded.forEach(f => f && lib.unload.push(f));
+    //preloaded.forEach(f => f && lib.unload.push(f));
 
     // Assign window object
     window.bunny = lib;
