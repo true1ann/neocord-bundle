@@ -70,7 +70,7 @@ export default function Developer() {
                         </>}
                     </TableRowGroup>
                     
-					<TableRowGroup title="NeoCord specific"
+					<TableRowGroup title="NeoCord specific">
                             <TableSwitchRow
                                 label={Strings.NC_PATCHERRBOUNDARY}
                                 subLabel={Strings.NC_PATCHERRBOUNDARY_DESC}
