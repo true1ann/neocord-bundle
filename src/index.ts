@@ -56,8 +56,8 @@ export default async () => {
         initVendettaObject(),
         initFetchI18nStrings(),
         initFixes(),
-        settings.doPatchErrorBoundary ? initSettings() : Promise.resolve(),
-        patchErrorBoundary(),
+        settings.doPatchErrorBoundary ? patchErrorBoundary() : Promise.resolve(),
+        initSettings(),
         updatePlugins()
     ]).then(
         // Push them all to unloader
