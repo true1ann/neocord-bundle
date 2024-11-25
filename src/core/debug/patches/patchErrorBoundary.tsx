@@ -11,10 +11,10 @@ function getErrorBoundaryContext() {
 }
 
 export default function patchErrorBoundary() {
-    const settings = useProxy();
+    useProxy(settings);
     
     if (!settings.doPatchErrorBoundary) {
-        return <ErrorBoundary >;
+        return;
     }
 
     return after.await("render", getErrorBoundaryContext(), function (this: any) {
