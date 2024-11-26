@@ -18,6 +18,7 @@ export function patchCommands() {
 
     // Register core commands
     [
+        require("@core/commands/aboutnc"),
         require("@core/commands/eval"),
         require("@core/commands/debug"),
         require("@core/commands/plugins")
