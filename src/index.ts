@@ -42,6 +42,26 @@ async function waitForSetting(setting: string, maxAttempts: number, delay: numbe
     return settings[setting];
 }
 
+async function ncinit_patchErrorBoundary() {
+    const ncinit_doPatchErrorBoundary = await waitForSetting('doPatchErrorBoundary', 100, 100);
+    if (ncinit_doPatchErrorBoundary === undefined) {
+        logger.log("Trying to get with eval()");
+        const evalResult = eval(vendetta.settings.doPatchErrorBoundary);
+        if (evalResult) {
+            const u = await patchErrorBoundary();
+            u && lib.unload.push(u);
+        }
+    } else {
+        logger.log("Value is valid.");
+        if (ncinit_doPatchErrorBoundary) {
+            const u = await patchErrorBoundary();
+            u && lib.unload.push(u);
+        } else {
+            logger.log("errorBoundary is NOT patched. You can change this behaviour in Developer settings.");
+        }
+    }
+}
+
 export default async () => {
     await maybeLoadThemes();
 
@@ -81,25 +101,10 @@ export default async () => {
     // Update the fonts
     updateFonts();
 
-    // Wait for the setting to be defined
-    const ncinit_doPatchErrorBoundary = await waitForSetting('doPatchErrorBoundary', 100, 100);
-
-    if (ncinit_doPatchErrorBoundary === undefined) {
-        logger.log("Reached maximum attempts, trying to get with eval()");
-        const evalResult = eval(vendetta.settings.doPatchErrorBoundary);
-        if (evalResult) {
-            const u = await patchErrorBoundary();
-            u && lib.unload.push(u);
-        }
-    } else {
-        logger.log("Reached maximum attempts, but value is valid.");
-        if (ncinit_doPatchErrorBoundary) {
-            const u = await patchErrorBoundary();
-            u && lib.unload.push(u);
-        } else {
-            logger.log("errorBoundary is NOT patched. You can change this behaviour in Developer settings.");
-        }
-    }
+    // Patch (or not) ErrorBoundary, hopefully without making delays
+    setTimeout(() => {
+        ncinit_patchErrorBoundary();
+    }, 10);
 
     // We good :)
     logger.log("NeoCord is ready!");
