@@ -53,12 +53,6 @@ export default function initSettings() {
                 icon: findAssetId("WrenchIcon"),
                 render: () => import("@core/ui/settings/pages/Developer"),
                 usePredicate: () => useProxy(settings).developerSettings ?? false
-            },
-            {
-            	key: "NC_DEVELOPER",
-            	title: () => Strings.CUSTOMCMD,
-            	icon: findAssetId("ic_application_command_24px"),
-            	render: () => import("@core/ui/settings/pages/nc_commands"),
             }
         ]
     });
