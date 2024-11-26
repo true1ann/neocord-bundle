@@ -5,7 +5,7 @@ export default () => <ApplicationCommand>{
     name: "aboutnc",
     description: "Tell people NCs About and send a download link",
     options: [],
-    execute(ctx) {
+    execute([], ctx) {
         const content = [
             "**What is NeoCord?**",
             "NeoCord is a fork of Revenge, with additional and experimental features.",
