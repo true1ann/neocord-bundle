@@ -43,7 +43,7 @@ export default () => <ApplicationCommand>{
             if (ephemeral?.value) {
                 messageUtil.sendBotMessage(ctx.channel.id, wrapInJSCodeblock(trimmedRes));
             } else {
-                messageUtil.sendMessage(ctx.channel.id, { wrapInJSCodeblock(trimmedRes) });
+                messageUtil.sendMessage(ctx.channel.id, { content: wrapInJSCodeblock(trimmedRes) });
             }
         } catch (err: any) {
             messageUtil.sendBotMessage(ctx.channel.id, wrapInJSCodeblock(err?.stack ?? err));
