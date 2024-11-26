@@ -1,13 +1,7 @@
-# 👊 Revenge
+# NeoCord/docs/
 
-This documentation explains how to use [Revenge](https://github.com/revenge-mod/revenge-bundle).
+Base documentation on NC plugins, usage and such.
 
-## 📖 Table of contents
+## Table of contents
 
-TODO.
-
-## ⏭️ Start here
-
-The next page will tell you about the prerequisites for using Revenge.
-
-Continue: [💼 Prerequisites](0_prerequisites.md)
+1. [Installation](guides_install.md)
