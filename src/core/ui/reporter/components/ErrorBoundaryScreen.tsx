@@ -8,6 +8,7 @@ import { createStyles } from "@lib/ui/styles";
 import { tokens } from "@metro/common";
 import { Button, Card, SafeAreaView, Text } from "@metro/common/components";
 import { ScrollView, View } from "react-native";
+import { clipboard } from "@metro/common";
 
 import ErrorComponentStackCard from "./ErrorComponentStackCard";
 import ErrorStackCard from "./ErrorStackCard";
@@ -42,9 +43,9 @@ export default function ErrorBoundaryScreen(props: {
                 {isComponentStack(props.error) ? <ErrorComponentStackCard componentStack={props.error.componentStack} /> : null}
             </ScrollView>
             <Card style={{ gap: 6 }}>
-                <Button text={Strings.RELOAD_DISCORD} onPress={() => BundleUpdaterManager.reload()} />
-                {!settings.safeMode?.enabled && <Button text={Strings.RELOAD_IN_SAFE_MODE} onPress={() => toggleSafeMode()} />}
-                <Button variant="destructive" text={Strings.RETRY_RENDER} onPress={() => props.rerender()} />
+                <Button variant="primary" text={Strings.RETRY_RENDER} onPress={() => props.rerender()} />
+                {!settings.safeMode?.enabled && <Button variant="secondary" text={Strings.RELOAD_IN_SAFE_MODE} onPress={() => toggleSafeMode()} />}
+                <Button variant="destructive" text={Strings.RELOAD_DISCORD} onPress={() => BundleUpdaterManager.reload()} />
             </Card>
         </SafeAreaView>
     </ErrorBoundary>;
