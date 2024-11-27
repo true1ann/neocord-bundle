@@ -6,7 +6,12 @@
 
 NeoCord, is another client modification for Discord, it is centerred mostly around developers & somewhat security¹, such features are `Loaders` and `Permissions`²
 
-# What are "Loaders"?
+# Documentation, and Installation
+
+All documentation & installtion steps are [here](docs/)
+
+# FAQs
+## What are "Loaders"?
 
 Loaders are the ones who load your Plugins, Themes, and Fonts. Moving to such things is a great choice, because you can focus on making one thing, without breaking anything else, or change plugin loading, without switching clients. There will be 4 official Loaders:
 * NC:VDLoader (for VD plugins)²
