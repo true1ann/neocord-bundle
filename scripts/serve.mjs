@@ -8,7 +8,7 @@ import url from "url";
 import yargs from "yargs-parser";
 
 import { forceStopAppFromADB, getPackageName, isADBAvailableAndAppInstalled, restartAppFromADB } from "./adb.mjs";
-import { buildBundle } from "./build.mjs";
+import { buildBundle } from "./build.swc.mjs";
 import { printBuildSuccess } from "./util.mjs";
 
 const args = yargs(process.argv.slice(2));
