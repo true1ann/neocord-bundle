@@ -33,38 +33,22 @@ async function maybeLoadThemes() {
     }
 }
 
-async function waitForSetting(setting: string, maxAttempts: number, delay: number): Promise<any> {
+async function ncinit_settings(maxAttempts: number, delay: number): Promise<any> {
     let attempts = 0;
-    while (settings[setting] === undefined && attempts < maxAttempts) {
+    while (Object.values(settings).some(value => value === undefined) && attempts < maxAttempts) {
         attempts++;
         await new Promise(resolve => setTimeout(resolve, delay));
     }
-    return settings[setting];
-}
-
-async function ncinit_patchErrorBoundary() {
-    const ncinit_doPatchErrorBoundary = await waitForSetting('doPatchErrorBoundary', 100, 100);
-    if (ncinit_doPatchErrorBoundary === undefined) {
-        logger.log("Trying to get with eval()");
-        const evalResult = eval(vendetta.settings.doPatchErrorBoundary);
-        if (evalResult) {
-            const u = await patchErrorBoundary();
-            u && lib.unload.push(u);
-        }
-    } else {
-        logger.log("Value is valid.");
-        if (ncinit_doPatchErrorBoundary) {
-            const u = await patchErrorBoundary();
-            u && lib.unload.push(u);
-        } else {
-            logger.log("errorBoundary is NOT patched. You can change this behaviour in Developer settings.");
-        }
-    }
+    logger.log('Settings are initialized.')
+    return settings;
 }
 
 export default async () => {
     await maybeLoadThemes();
+    const ncvar_settings = await ncinit_settings(); // may migrate to using settings directly later.
 
+    // TODO: make auto-connect for react-devtools and websocket thing
+    
     // Load everything in parallel
     await Promise.all([
         wrapSafeAreaProvider(),
@@ -78,11 +62,19 @@ export default async () => {
         initFetchI18nStrings(),
         initFixes(),
         initSettings(),
-        updatePlugins()
+        updatePlugins(),
     ]).then(
         // Push them all to unloader
         u => u.forEach(f => f && lib.unload.push(f))
     );
+
+    // Patch errorBoundary
+    if (ncvar_settings.doPatchErrorBoundary) {
+        const u = await patchErrorBoundary();
+        u && lib.unload.push(u);
+    } else {
+        logger.log("errorBoundary is NOT patched. You can change this behaviour in Developer settings.");
+    }
 
     // Assign window object
     window.bunny = lib;
@@ -100,11 +92,6 @@ export default async () => {
 
     // Update the fonts
     updateFonts();
-
-    // Patch (or not) ErrorBoundary, hopefully without making delays
-    setTimeout(() => {
-        ncinit_patchErrorBoundary();
-    }, 10);
 
     // We good :)
     logger.log("NeoCord is ready!");
