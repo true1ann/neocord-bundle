@@ -120,9 +120,9 @@
     "EX_PB": "NC:BUN Plugin Browser",
     "CRASH_HEADER": "A crash occured while rendering a component. This could be caused by a plugin, NeoCord or Discord itself.",
     "NC_PATCHERRBOUNDARY": "Patch ErrorBoundary",
-    "NC_PATCHERRBOUNDARY_DESC": "Will make crash screen more detailed, in exchange for launching speed."
-	"NC_AUTOCONNECT_DEBUGWS": "Auto Connect to Debug WebSocket on Startup",
-	"NC_AUTOCONNECT_DEBUGWs_DESC": "Automatically connect to the Debug WebSocket before NeoCord loads.",
-	"NC_AUTOCONNECT_RNDEVTOOLS": "Auto Connect to React DevTools on Startup",
-	"NC_AUTOCONNECT_RNDEVTOOLS_DESC": "Automatically connect to React DevTools before NeoCord loads."
+    "NC_PATCHERRBOUNDARY_DESC": "Will make crash screen more detailed, in exchange for launching speed.",
+    "NC_AUTOCONNECT_DEBUGWS": "Auto Connect to Debug WebSocket on Startup",
+    "NC_AUTOCONNECT_DEBUGWS_DESC": "Automatically connect to the Debug WebSocket before NeoCord loads.",
+    "NC_AUTOCONNECT_RNDEVTOOLS": "Auto Connect to React DevTools on Startup",
+    "NC_AUTOCONNECT_RNDEVTOOLS_DESC": "Automatically connect to React DevTools before NeoCord loads."
 }
