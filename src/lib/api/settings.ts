@@ -11,6 +11,8 @@ export interface Settings {
     };
     enableEvalCommand?: boolean;
     doPatchErrorBoundary: boolean;
+    autoConnectToDebugWS: boolean;
+    autoConnectToRNDevTools boolean;
 }
 
 export interface LoaderConfig {

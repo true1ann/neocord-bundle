@@ -90,6 +90,22 @@ export default function Developer() {
                                         />);
                     		}}
                     	/>
+						<TableSwitchRow
+                             label={Strings.NC_AUTOCONNECT_DEBUGWS}
+                             subLabel={Strings.NC_AUTOCONNECT_DEBUGWS_DESC}
+                             icon={<TableRow.Icon source={findAssetId("")} />}
+                             value={settings.autoConnectToDebugWS}
+                             onValueChange={(v: boolean) => {
+                                     settings.autoConnectToDebugWS = v;
+                        />
+                        <TableSwitchRow
+                              label={Strings.NC_AUTOCONNECT_RNDEVTOOLS}
+                              subLabel={Strings.NC_AUTOCONNECT_RNDEVTOOLS_DESC}
+                              icon={<TableRow.Icon source={findAssetId("")} />}
+                              value={settings.autoConnectToRNDevTools}
+                              onValueChange={(v: boolean) => {
+                                      settings.autoConnectToRNDevTools = v;
+                        />
           			</TableRowGroup>
                     
                     {isLoaderConfigSupported() && <>
