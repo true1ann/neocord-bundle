@@ -99,15 +99,17 @@ export default function Developer() {
                                      settings.autoConnectToDebugWS = v;
 			     }}
                         />
-                        <TableSwitchRow
-                              label={Strings.NC_AUTOCONNECT_RNDEVTOOLS}
-                              subLabel={Strings.NC_AUTOCONNECT_RNDEVTOOLS_DESC}
-                              icon={<TableRow.Icon source={findAssetId("ScienceIcon")} />}
-                              value={settings.autoConnectToRNDevTools}
-                              onValueChange={(v: boolean) => {
+			{isReactDevToolsPreloaded() && <>
+                            <TableSwitchRow
+                                  label={Strings.NC_AUTOCONNECT_RNDEVTOOLS}
+                                  subLabel={Strings.NC_AUTOCONNECT_RNDEVTOOLS_DESC}
+                                  icon={<TableRow.Icon source={findAssetId("ScienceIcon")} />}
+                                  value={settings.autoConnectToRNDevTools}
+                                  onValueChange={(v: boolean) => {
                                       settings.autoConnectToRNDevTools = v;
-			      }}
-                        />
+			          }}
+                             />
+			</>}
           			</TableRowGroup>
                     
                     {isLoaderConfigSupported() && <>
