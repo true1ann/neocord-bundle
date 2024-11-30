@@ -51,13 +51,13 @@ export default async () => {
 
     // Check and connect to Debug WebSocket if enabled
     if (ncvar_settings.autoConnectToDebugWS) {
-        connectToDebugger(settings.debuggerUrl);
+        connectToDebugger(ncvar_settings.debuggerUrl);
     }
 
     // Check and connect to RN DevTools if preloaded and enabled
     if (isReactDevToolsPreloaded() && ncvar_settings.autoConnectToRNDevTools) {
         window[getReactDevToolsProp() || "__vendetta_rdc"]?.connectToDevTools({
-            host: settings.debuggerUrl.split(":")?.[0],
+            host: ncvar_settings.debuggerUrl.split(":")?.[0],
             resolveRNStyle: StyleSheet.flatten,
         });
     }
@@ -109,4 +109,5 @@ export default async () => {
 
     // We good :)
     logger.log("NeoCord is ready!");
+    console.log("NeoCord is ready!");
 };
