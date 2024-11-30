@@ -21,7 +21,7 @@ export const Strings = new Proxy({}, {
 export function initFetchI18nStrings() {
     const cb = async () => {
         const discordLocale = i18n.getLocales(); // Nexx, thank you
-        logger.log(`Loading locale strings for: ${discordLocale}`);
+        console.log(`Loading locale strings for: ${discordLocale}`);
 
         // Load default strings
         _loadedStrings[discordLocale] = { ...langDefault };
@@ -36,7 +36,7 @@ export function initFetchI18nStrings() {
                 _currentLocale = discordLocale;
             } else {
 		// TODO: Remote fetching the locale (just as Bunny did)
-                logger.warn(`Locale file not found for ${discordLocale}, using default strings.`);
+                console.log(`Locale file not found for ${discordLocale}, using default strings.`);
             }
         } catch (e) {
             console.error(`Error fetching local file for ${discordLocale}: ${e}`);
