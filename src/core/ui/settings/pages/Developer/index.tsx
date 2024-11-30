@@ -70,7 +70,7 @@ export default function Developer() {
                         </>}
                     </TableRowGroup>
                     
-					<TableRowGroup title="NeoCord specific">
+		    <TableRowGroup title="NeoCord specific">
                     	<TableSwitchRow
                     		label={Strings.NC_PATCHERRBOUNDARY}
                     		subLabel={Strings.NC_PATCHERRBOUNDARY_DESC}
@@ -90,13 +90,14 @@ export default function Developer() {
                                         />);
                     		}}
                     	/>
-						<TableSwitchRow
+			<TableSwitchRow
                              label={Strings.NC_AUTOCONNECT_DEBUGWS}
                              subLabel={Strings.NC_AUTOCONNECT_DEBUGWS_DESC}
                              icon={<TableRow.Icon source={findAssetId("")} />}
                              value={settings.autoConnectToDebugWS}
                              onValueChange={(v: boolean) => {
                                      settings.autoConnectToDebugWS = v;
+			     }}
                         />
                         <TableSwitchRow
                               label={Strings.NC_AUTOCONNECT_RNDEVTOOLS}
@@ -105,6 +106,7 @@ export default function Developer() {
                               value={settings.autoConnectToRNDevTools}
                               onValueChange={(v: boolean) => {
                                       settings.autoConnectToRNDevTools = v;
+			      }}
                         />
           			</TableRowGroup>
                     
