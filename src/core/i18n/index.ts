@@ -1,5 +1,5 @@
 import { logger } from "@lib/utils/logger";
-import { FluxDispatche, i18n } from "@metro/common";
+import { FluxDispatcher, i18n } from "@metro/common";
 import { findByNameLazy } from "@metro/wrappers";
 import { PrimitiveType } from "intl-messageformat";
 
