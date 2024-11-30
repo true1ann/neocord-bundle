@@ -16,6 +16,8 @@ import { isPyonLoader, isThemeSupported } from "@lib/api/native/loader";
 import { patchJsx } from "@lib/api/react/jsx";
 import { logger } from "@lib/utils/logger";
 import { patchSettings } from "@ui/settings";
+import { connectToDebugger } from "@lib/api/debug";
+import { getReactDevToolsProp, isReactDevToolsPreloaded } from "@lib/api/native/loader";
 import { settings } from "@lib/api/settings";
 
 import * as lib from "./lib";
@@ -47,8 +49,20 @@ export default async () => {
     await maybeLoadThemes();
     const ncvar_settings = await ncinit_settings(); // may migrate to using settings directly later.
 
-    // TODO: make auto-connect for react-devtools and websocket thing
-    
+    // Check and connect to Debug WebSocket if enabled
+    if (ncvar_settings.autoConnectToDebugWS) {
+        connectToDebugger(settings.debuggerUrl);
+    }
+
+    // Check and connect to RN DevTools if preloaded and enabled
+    if (isReactDevToolsPreloaded() && ncvar_settings.autoConnectToRNDevTools) {
+        window[getReactDevToolsProp() || "__vendetta_rdc"]?.connectToDevTools({
+            host: settings.debuggerUrl.split(":")?.[0],
+            resolveRNStyle: StyleSheet.flatten,
+        });
+    }
+    // Please report any bugs related to this, i never used RN DevTools
+
     // Load everything in parallel
     await Promise.all([
         wrapSafeAreaProvider(),
