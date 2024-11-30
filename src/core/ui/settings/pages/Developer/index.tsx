@@ -61,7 +61,7 @@ export default function Developer() {
                         {isReactDevToolsPreloaded() && <>
                             <TableRow
                                 label={Strings.CONNECT_TO_REACT_DEVTOOLS}
-                                icon={<TableRow.Icon source={findAssetId("ic_badge_staff")} />}
+                                icon={<TableRow.Icon source={findAssetId("ScienceIcon")} />}
                                 onPress={() => window[getReactDevToolsProp() || "__vendetta_rdc"]?.connectToDevTools({
                                     host: settings.debuggerUrl.split(":")?.[0],
                                     resolveRNStyle: StyleSheet.flatten,
@@ -93,7 +93,7 @@ export default function Developer() {
 			<TableSwitchRow
                              label={Strings.NC_AUTOCONNECT_DEBUGWS}
                              subLabel={Strings.NC_AUTOCONNECT_DEBUGWS_DESC}
-                             icon={<TableRow.Icon source={findAssetId("")} />}
+                             icon={<TableRow.Icon source={findAssetId("ic_application_command_24px")} />}
                              value={settings.autoConnectToDebugWS}
                              onValueChange={(v: boolean) => {
                                      settings.autoConnectToDebugWS = v;
@@ -102,7 +102,7 @@ export default function Developer() {
                         <TableSwitchRow
                               label={Strings.NC_AUTOCONNECT_RNDEVTOOLS}
                               subLabel={Strings.NC_AUTOCONNECT_RNDEVTOOLS_DESC}
-                              icon={<TableRow.Icon source={findAssetId("")} />}
+                              icon={<TableRow.Icon source={findAssetId("ScienceIcon")} />}
                               value={settings.autoConnectToRNDevTools}
                               onValueChange={(v: boolean) => {
                                       settings.autoConnectToRNDevTools = v;
