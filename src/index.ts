@@ -47,7 +47,7 @@ async function ncinit_settings(maxAttempts: number, delay: number): Promise<any>
 
 export default async () => {
     await maybeLoadThemes();
-    const ncvar_settings = await ncinit_settings(); // may migrate to using settings directly later.
+    const ncvar_settings = await ncinit_settings(100, 100); // may migrate to using settings directly later.
 
     // Check and connect to Debug WebSocket if enabled
     if (ncvar_settings.autoConnectToDebugWS) {
