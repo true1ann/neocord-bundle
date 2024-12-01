@@ -37,7 +37,7 @@ async function maybeLoadThemes() {
 
 async function ncinit_settings(maxAttempts: number, delay: number): Promise<any> {
     let attempts = 0;
-    while (Object.values(settings).some(value => value === undefined) && attempts < maxAttempts) {
+    while (Object.values(settings).some(value => value === undefined || value === "") && attempts < maxAttempts) {
         attempts++;
         await new Promise(resolve => setTimeout(resolve, delay));
     }
@@ -47,7 +47,7 @@ async function ncinit_settings(maxAttempts: number, delay: number): Promise<any>
 
 export default async () => {
     await maybeLoadThemes();
-    const ncvar_settings = await ncinit_settings(100, 100); // may migrate to using settings directly later.
+    const ncvar_settings = await ncinit_settings(100, 125); // may migrate to using settings directly later.
 
     // Check and connect to Debug WebSocket if enabled
     if (ncvar_settings.autoConnectToDebugWS) {
