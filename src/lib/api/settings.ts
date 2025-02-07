@@ -13,6 +13,7 @@ export interface Settings {
     doPatchErrorBoundary: boolean;
     autoConnectToDebugWS: boolean;
     autoConnectToRNDevTools: boolean;
+    nc_showBunnyPluginBrowser: boolean;
 }
 
 export interface LoaderConfig {

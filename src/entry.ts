@@ -66,6 +66,7 @@ if (typeof globalThis.__r !== "undefined") {
                 _requireFunc = function patchedRequire(a: number) {
                     // Initializing index.ts(x)
                     if (a === 0) {
+                        if (window.modules instanceof Map) window.modules = Object.fromEntries(window.modules);
                         onceIndexRequired(v);
                         _requireFunc = v;
                     } else return v(a);

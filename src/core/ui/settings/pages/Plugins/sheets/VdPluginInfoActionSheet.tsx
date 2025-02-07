@@ -78,7 +78,7 @@ export default function PluginInfoActionSheet({ plugin, navigation }: PluginInfo
                 />
                 <ActionSheetRow
                     label={Strings.CLEAR_DATA}
-                    icon={<TableRow.Icon source={findAssetId("ic_duplicate")} />}
+                    icon={<TableRow.Icon source={findAssetId("ic_message_copy")} />}
                     onPress={() => showConfirmationAlert({
                         title: Strings.HOLD_UP,
                         content: formatString("ARE_YOU_SURE_TO_CLEAR_DATA", { name: plugin.name }),

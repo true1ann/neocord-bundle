@@ -2,7 +2,6 @@
 import { lazy } from "react";
 import type { ImageURISource } from "react-native";
 
-import { patchPanelUI } from "./patches/panel";
 import { patchTabsUI } from "./patches/tabs";
 
 export interface RowConfig {
@@ -31,7 +30,6 @@ export function registerSection(section: { name: string; items: RowConfig[]; }) 
 export function patchSettings() {
     const unpatches = new Array<() => boolean>;
 
-    patchPanelUI(unpatches);
     patchTabsUI(unpatches);
 
     return () => unpatches.forEach(u => u());

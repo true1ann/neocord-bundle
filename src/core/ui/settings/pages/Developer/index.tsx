@@ -1,4 +1,5 @@
 import { Strings } from "@core/i18n";
+import EvalDisplay from "./EvalMenu";
 import { CheckState, useFileExists } from "@core/ui/hooks/useFS";
 import AssetBrowser from "@core/ui/settings/pages/Developer/AssetBrowser";
 import { useProxy } from "@core/vendetta/storage";
@@ -15,7 +16,10 @@ import { ErrorBoundary } from "@ui/components";
 import { createStyles, TextStyleSheet } from "@ui/styles";
 import { NativeModules } from "react-native";
 import { ScrollView, StyleSheet } from "react-native";
-
+import { nc_data } from '@lib/utils/ncData';
+import { unload } from "../../../../../lib";
+import patchErrorBoundary from "@core/debug/patches/patchErrorBoundary";
+import { showToast } from "@lib/ui/toasts";
 const { hideActionSheet } = lazyDestructure(() => findByProps("openLazy", "hideActionSheet"));
 const { showSimpleActionSheet } = lazyDestructure(() => findByProps("showSimpleActionSheet"));
 const { openAlert } = lazyDestructure(() => findByProps("openAlert", "dismissAlert"));
@@ -70,48 +74,81 @@ export default function Developer() {
                         </>}
                     </TableRowGroup>
                     
-		    <TableRowGroup title="NeoCord specific">
-                    	<TableSwitchRow
-                    		label={Strings.NC_PATCHERRBOUNDARY}
-                    		subLabel={Strings.NC_PATCHERRBOUNDARY_DESC}
-                    		icon={<TableRow.Icon source={findAssetId("ic_stop_stream_24px")} />}
-                    		value={settings.doPatchErrorBoundary}
-                    		onValueChange={(v: boolean) => {
-                    			settings.doPatchErrorBoundary = v;
-					openAlert("neocord-patch-errboundary-reload-confirmation", <AlertModal
-                                            title={Strings.MODAL_RELOAD_REQUIRED}
-                                            content={Strings.MODAL_RELOAD_REQUIRED_DESC}
-                                            actions={
-                                                <Stack>
-                                                    <AlertActionButton text={Strings.RELOAD} variant="destructive" onPress={() => NativeModules.BundleUpdaterManager.reload()} />
-                                                    <AlertActionButton text={Strings.CANCEL} variant="secondary" />
-                                                </Stack>
-                                            }
-                                        />);
-                    		}}
-                    	/>
-			<TableSwitchRow
-                             label={Strings.NC_AUTOCONNECT_DEBUGWS}
-                             subLabel={Strings.NC_AUTOCONNECT_DEBUGWS_DESC}
-                             icon={<TableRow.Icon source={findAssetId("ic_application_command_24px")} />}
-                             value={settings.autoConnectToDebugWS}
-                             onValueChange={(v: boolean) => {
-                                     settings.autoConnectToDebugWS = v;
-			     }}
-                        />
-			{isReactDevToolsPreloaded() && <>
-                            <TableSwitchRow
-                                  label={Strings.NC_AUTOCONNECT_RNDEVTOOLS}
-                                  subLabel={Strings.NC_AUTOCONNECT_RNDEVTOOLS_DESC}
-                                  icon={<TableRow.Icon source={findAssetId("ScienceIcon")} />}
-                                  value={settings.autoConnectToRNDevTools}
-                                  onValueChange={(v: boolean) => {
-                                      settings.autoConnectToRNDevTools = v;
-			          }}
-                             />
-			</>}
-          			</TableRowGroup>
-                    
+		    <TableRowGroup title="NeoCord">
+                <TableSwitchRow
+                    label={Strings.NC_AUTO_PATCHERRORBOUNDARY}
+                    subLabel={Strings.NC_AUTO_PATCHERRORBOUNDARY_DESC}
+                    icon={<TableRow.Icon source={findAssetId("ic_stop_stream_24px")} />}
+                    value={settings.doPatchErrorBoundary}
+                    onValueChange={(v: boolean) => {
+                    	settings.doPatchErrorBoundary = v;
+                        openAlert("neocord-patch-errboundary-reload-confirmation", <AlertModal
+                        title={Strings.MODAL_RELOAD_REQUIRED}
+                        content={Strings.MODAL_RELOAD_REQUIRED_DESC}
+                        actions={
+                            <Stack>
+                                <AlertActionButton text={Strings.RELOAD} variant="destructive" onPress={() => NativeModules.BundleUpdaterManager.reload()} />
+                                <AlertActionButton text={Strings.CANCEL} variant="secondary" />
+                            </Stack>
+                        }
+                        />);
+                    }}
+                />
+                <TableRow
+                    disabled={nc_data.isErrorBoundaryPatched}
+                    label={nc_data.isErrorBoundaryPatched ? Strings.NC_PATCHEDERRORBOUNDARY : Strings.NC_PATCHERRORBOUNDARY}
+                    icon={<TableRow.Icon source={findAssetId("ic_stop_stream_24px")} />}
+                    onPress={async () => {
+                        if (nc_data.isErrorBoundaryPatched) {
+                            showToast(Strings.NC_PATCHEDRRORBOUNDARY_TWICE, findAssetId('close'));
+                        } else {
+                            nc_data.isErrorBoundaryPatched = true;
+                            const u = await patchErrorBoundary();
+                            u && unload.push(u);
+                            showToast(Strings.NC_PATCHERRORBOUNDARY_COMPLETE, findAssetId('check'));
+                        }
+                    }}
+                />
+			    <TableSwitchRow
+                    label={Strings.NC_AUTOCONNECT_DEBUGWS}
+                    subLabel={Strings.NC_AUTOCONNECT_DEBUGWS_DESC}
+                    icon={<TableRow.Icon source={findAssetId("ic_application_command_24px")} />}
+                    value={settings.autoConnectToDebugWS}
+                    onValueChange={(v: boolean) => {
+                        settings.autoConnectToDebugWS = v;
+			        }}
+                />
+			    {isReactDevToolsPreloaded() && <>
+                    <TableSwitchRow
+                        label={Strings.NC_AUTOCONNECT_RNDEVTOOLS}
+                        subLabel={Strings.NC_AUTOCONNECT_RNDEVTOOLS_DESC}
+                        icon={<TableRow.Icon source={findAssetId("ScienceIcon")} />}
+                        value={settings.autoConnectToRNDevTools}
+                        onValueChange={(v: boolean) => {
+                            settings.autoConnectToRNDevTools = v;
+			            }}
+                    />
+			    </>}
+			    <TableSwitchRow
+                    label={Strings.NC_SHOW_BUNNY_PLUGINBROWSER}
+                    subLabel={Strings.NC_SHOW_BUNNY_PLUGINBROWSER_DESC}
+                    icon={<TableRow.Icon source={findAssetId("debug")} />}
+                    value={settings.nc_showBunnyPluginBrowser}
+                    onValueChange={(v: boolean) => {
+                        settings.nc_showBunnyPluginBrowser = v;
+			        }}
+                />
+                <TableRow
+                    arrow
+                    label={Strings.NC_EVALDISPLAY}
+                    icon={<TableRow.Icon source={findAssetId("ic_application_command_24px")} />}
+                    trailing={TableRow.Arrow}
+                    onPress={() => navigation.push("BUNNY_CUSTOM_PAGE", {
+                        title: Strings.NC_EVALDISPLAY,
+                        render: EvalDisplay,
+                    })}
+                />
+          		</TableRowGroup>
                     {isLoaderConfigSupported() && <>
                         <TableRowGroup title="Loader config">
                             <TableSwitchRow

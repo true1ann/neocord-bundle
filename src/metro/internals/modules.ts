@@ -6,7 +6,7 @@ import { ModuleFlags, ModulesMapInternal } from "./enums";
 const { before, instead } = require("spitroast");
 
 export const metroModules: Metro.ModuleList = window.modules;
-const metroRequire: Metro.Require = window.__r;
+const metroRequire = (id: string | number) => window.__r(+id);
 
 // eslint-disable-next-line func-call-spacing
 const moduleSubscriptions = new Map<number, Set<() => void>>();

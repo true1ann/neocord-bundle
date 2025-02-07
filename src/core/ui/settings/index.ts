@@ -31,7 +31,8 @@ export default function initSettings() {
             	key: "BUNNYEX_PB",
             	title: () => Strings.EX_PB,
 				icon: findAssetId("img_collectibles_shop"),
-				render: () => import("@core/ui/settings/pages/PluginBrowser")
+				render: () => import("@core/ui/settings/pages/PluginBrowser"),
+                usePredicate: () => useProxy(settings).nc_showBunnyPluginBrowser ?? false
             },
             {
                 key: "BUNNY_THEMES",

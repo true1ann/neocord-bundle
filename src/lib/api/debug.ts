@@ -44,17 +44,27 @@ export async function toggleSafeMode() {
 }
 
 let socket: WebSocket;
+
 export function connectToDebugger(url: string) {
     if (socket !== undefined && socket.readyState !== WebSocket.CLOSED) socket.close();
 
     if (!url) {
+        console.log("Invalid debugger URL!");
         showToast("Invalid debugger URL!", findAssetId("Small"));
         return;
     }
 
+    logger.log(`Connecting to Debug WebSocket at ws://${url}`);
+    console.log(`Connecting to Debug WebSocket at ws://${url}`);
+
     socket = new WebSocket(`ws://${url}`);
 
-    socket.addEventListener("open", () => showToast("Connected to debugger.", findAssetId("Check")));
+    socket.addEventListener("open", () => {
+        logger.log("Connected to Debug WebSocket");
+        console.log("Connected to Debug WebSocket");
+        showToast("Connected to debugger.", findAssetId("Check"));
+    });
+
     socket.addEventListener("message", (message: any) => {
         try {
             (0, eval)(message.data);
@@ -64,8 +74,14 @@ export function connectToDebugger(url: string) {
     });
 
     socket.addEventListener("error", (err: any) => {
-        console.log(`Debugger error: ${err.message}`);
+        logger.log(`Debugger error: ${err.message}`);
+        console.error(`Debugger error: ${err.message}`);
         showToast("An error occurred with the debugger connection!", findAssetId("Small"));
+    });
+
+    socket.addEventListener("close", () => {
+        logger.log("WebSocket connection closed");
+        console.log("WebSocket connection closed");
     });
 }
 
